@@ -27,20 +27,20 @@ export const createPayment = async ({
 
   // 3. Insert payment record
   await pool.query(
-    `INSERT INTO payments (booking_id, user_id, amount, reference)
+    `INSERT INTO payments (booking_id, user_id, amount, transaction_ref)
      VALUES ($1, $2, $3, $4)`,
     [bookingId, userId, amount, reference]
   );
 
   // 4. Determine statuses
-  let paymentStatus = "UNPAID";
-  let bookingStatus = "PENDING";
+  let payment_statu = "UNPAID";
+  let booking_statu = "PENDING";
 
   if (newPaidAmount === booking.total_price) {
-    paymentStatus = "PAID";
-    bookingStatus = "CONFIRMED";
+    payment_statu = "SUCCESS";
+    booking_statu = "CONFIRMED";
   } else if (newPaidAmount > 0) {
-    paymentStatus = "PARTIAL";
+    payment_statu = "PENDING";
   }
 
   // 5. Update booking
@@ -52,7 +52,7 @@ export const createPayment = async ({
          updated_at = CURRENT_TIMESTAMP
      WHERE id = $4
      RETURNING *`,
-    [newPaidAmount, paymentStatus, bookingStatus, bookingId]
+    [newPaidAmount, payment_statu, booking_statu, bookingId]
   );
 
   return updatedBooking.rows[0];
