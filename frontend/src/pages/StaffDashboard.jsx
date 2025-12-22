@@ -1,19 +1,26 @@
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { packageService } from '../services/packages';
 import { bookingService } from '../services/bookings';
 import '../styles/staff.css';
 
 export default function StaffDashboard() {
+  const [searchParams] = useSearchParams();
+  const editPackageId = searchParams.get('edit');
+  
   const [activeTab, setActiveTab] = useState('packages');
   const [packages, setPackages] = useState([]);
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [showPackageForm, setShowPackageForm] = useState(false);
+  const [showPackageForm, setShowPackageForm] = useState(!!editPackageId);
   const [editingPackage, setEditingPackage] = useState(null);
   
   const [packageForm, setPackageForm] = useState({
     title: '',
     destination: '',
+    location: '',
+    image: null,
+    description: '',
     flight_summary: '',
     hotel_name: '',
     hotel_rating: 5,
@@ -23,6 +30,7 @@ export default function StaffDashboard() {
     start_date: '',
     end_date: ''
   });
+  const [imagePreview, setImagePreview] = useState(null);
 
   useEffect(() => {
     if (activeTab === 'packages') {
@@ -31,6 +39,16 @@ export default function StaffDashboard() {
       fetchBookings();
     }
   }, [activeTab]);
+
+  // Handle edit mode from URL
+  useEffect(() => {
+    if (editPackageId && packages.length > 0) {
+      const packageToEdit = packages.find(pkg => pkg.id === editPackageId);
+      if (packageToEdit) {
+        handleEditPackage(packageToEdit);
+      }
+    }
+  }, [editPackageId, packages]);
 
   const fetchPackages = async () => {
     setLoading(true);
@@ -85,6 +103,9 @@ export default function StaffDashboard() {
     setPackageForm({
       title: pkg.title,
       destination: pkg.destination,
+      location: pkg.location || '',
+      image: null,
+      description: pkg.description || '',
       flight_summary: pkg.flight_summary,
       hotel_name: pkg.hotel_name,
       hotel_rating: pkg.hotel_rating,
@@ -94,6 +115,7 @@ export default function StaffDashboard() {
       start_date: pkg.start_date?.split('T')[0] || '',
       end_date: pkg.end_date?.split('T')[0] || ''
     });
+    setImagePreview(pkg.image_url ? `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${pkg.image_url}` : null);
     setShowPackageForm(true);
   };
 
@@ -123,6 +145,9 @@ export default function StaffDashboard() {
     setPackageForm({
       title: '',
       destination: '',
+      location: '',
+      image: null,
+      description: '',
       flight_summary: '',
       hotel_name: '',
       hotel_rating: 5,
@@ -132,6 +157,21 @@ export default function StaffDashboard() {
       start_date: '',
       end_date: ''
     });
+    setImagePreview(null);
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setPackageForm({...packageForm, image: file});
+      
+      // Create preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const formatDate = (dateString) => {
@@ -257,9 +297,10 @@ export default function StaffDashboard() {
                   <tbody>
                     {bookings.map(booking => (
                       <tr key={booking.id}>
-                        <td>{booking.id.slice(0, 8)}</td>
-                        <td>{booking.user_id.slice(0, 8)}</td>
-                        <td>{booking.package_id.slice(0, 8)}</td>
+                        <td>{String(booking.id).slice(0, 8)}</td>
+                       <td>{String(booking.user_id).slice(0, 8)}</td>
+                       <td>{String(booking.package_id).slice(0, 8)}</td>
+ 
                         <td>${booking.total_price}</td>
                         <td>${booking.paid_amount}</td>
                         <td>{formatDate(booking.travel_date)}</td>
@@ -330,6 +371,42 @@ export default function StaffDashboard() {
                       required
                     />
                   </div>
+                </div>
+
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>Location</label>
+                    <input
+                      type="text"
+                      value={packageForm.location}
+                      onChange={(e) => setPackageForm({...packageForm, location: e.target.value})}
+                      placeholder="Specific area or district"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Package Image</label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      className="file-input"
+                    />
+                    {imagePreview && (
+                      <div className="image-preview">
+                        <img src={imagePreview} alt="Preview" />
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <label>Description</label>
+                  <textarea
+                    value={packageForm.description}
+                    onChange={(e) => setPackageForm({...packageForm, description: e.target.value})}
+                    placeholder="Detailed description of the package experience..."
+                    rows="4"
+                  />
                 </div>
 
                 <div className="form-group">

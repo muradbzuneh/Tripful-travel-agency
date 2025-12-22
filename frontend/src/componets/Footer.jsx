@@ -32,12 +32,12 @@ export default function Footer() {
           <div className="footer-section">
             <h4>Contact</h4>
             <p>Email: info@tripful.com</p>
-            <p>Phone: +1 (555) 123-4567</p>
+            <p>Phone: +25191234567</p>
           </div>
         </div>
         
         <div className="footer-bottom">
-          <p>&copy; 2024 Tripful. All rights reserved.</p>
+          <p>&copy;{new Date().getFullYear()}  Tripful. All rights reserved.</p>
         </div>
       </div>
     </footer>

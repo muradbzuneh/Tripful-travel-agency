@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS users (
   email VARCHAR(255) UNIQUE NOT NULL,
   password_hash VARCHAR(255) NOT NULL,
   phone VARCHAR(50),
-  role VARCHAR(20) DEFAULT 'CUSTOMER' CHECK (role IN ('CUSTOMER', 'STAFF')),
+  role VARCHAR(20) DEFAULT 'CUSTOMER' CHECK (role IN ('CUSTOMER', 'STAFF', 'ADMIN')),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -21,6 +21,9 @@ CREATE TABLE IF NOT EXISTS packages (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   title VARCHAR(255) NOT NULL,
   destination VARCHAR(255) NOT NULL,
+  location VARCHAR(255),
+  image_url VARCHAR(500),
+  description TEXT,
   flight_summary TEXT,
   hotel_name VARCHAR(255),
   hotel_rating INTEGER CHECK (hotel_rating BETWEEN 1 AND 5),
@@ -61,6 +64,11 @@ CREATE TABLE IF NOT EXISTS payments (
 
 -- Insert sample data for testing
 
+-- Sample admin user (password: admin123)
+INSERT INTO users (full_name, email, password_hash, phone, role) VALUES 
+('System Admin', 'admin@tripful.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '+1234567888', 'ADMIN')
+ON CONFLICT (email) DO NOTHING;
+
 -- Sample staff user (password: password123)
 INSERT INTO users (full_name, email, password_hash, phone, role) VALUES 
 ('Staff Admin', 'staff@demo.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '+1234567890', 'STAFF')
@@ -71,11 +79,14 @@ INSERT INTO users (full_name, email, password_hash, phone, role) VALUES
 ('John Customer', 'customer@demo.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '+1234567891', 'CUSTOMER')
 ON CONFLICT (email) DO NOTHING;
 
--- Sample packages (using staff user ID)
-INSERT INTO packages (title, destination, flight_summary, hotel_name, hotel_rating, duration_days, price, available_slots, start_date, end_date, created_by) 
+-- Sample packages (using admin user ID)
+INSERT INTO packages (title, destination, location, image_url, description, flight_summary, hotel_name, hotel_rating, duration_days, price, available_slots, start_date, end_date, created_by) 
 SELECT 
   'Dubai Desert Adventure',
   'Dubai, UAE',
+  'Dubai Marina, Downtown Dubai',
+  '/uploads/packages/sample-package.jpg',
+  'Experience the magic of Dubai with luxury desert safaris, world-class shopping, and stunning architecture. Visit the Burj Khalifa, enjoy traditional Emirati cuisine, and relax on pristine beaches.',
   'Emirates Airlines - Direct flights from major cities',
   'Burj Al Arab',
   5,
@@ -85,13 +96,16 @@ SELECT
   '2024-03-01',
   '2024-12-31',
   u.id
-FROM users u WHERE u.email = 'staff@demo.com'
+FROM users u WHERE u.email = 'admin@tripful.com'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO packages (title, destination, flight_summary, hotel_name, hotel_rating, duration_days, price, available_slots, start_date, end_date, created_by) 
+INSERT INTO packages (title, destination, location, image_url, description, flight_summary, hotel_name, hotel_rating, duration_days, price, available_slots, start_date, end_date, created_by) 
 SELECT 
   'Tropical Paradise Getaway',
   'Maldives',
+  'Male Atoll, Indian Ocean',
+  '/uploads/packages/sample-package.jpg',
+  'Escape to crystal-clear waters and overwater bungalows in the Maldives. Enjoy world-class diving, spa treatments, and romantic sunset dinners on pristine white sand beaches.',
   'Qatar Airways - Connecting flights via Doha',
   'Conrad Maldives Rangali Island',
   5,
@@ -101,13 +115,16 @@ SELECT
   '2024-02-15',
   '2024-11-30',
   u.id
-FROM users u WHERE u.email = 'staff@demo.com'
+FROM users u WHERE u.email = 'admin@tripful.com'
 ON CONFLICT DO NOTHING;
 
-INSERT INTO packages (title, destination, flight_summary, hotel_name, hotel_rating, duration_days, price, available_slots, start_date, end_date, created_by) 
+INSERT INTO packages (title, destination, location, image_url, description, flight_summary, hotel_name, hotel_rating, duration_days, price, available_slots, start_date, end_date, created_by) 
 SELECT 
   'European City Break',
   'Paris, France',
+  'Champs-Élysées, Louvre District',
+  '/uploads/packages/sample-package.jpg',
+  'Discover the City of Light with visits to iconic landmarks like the Eiffel Tower, Louvre Museum, and Notre-Dame. Enjoy French cuisine, fashion shopping, and romantic Seine river cruises.',
   'Air France - Direct flights from New York',
   'Hotel Plaza Athénée',
   4,
@@ -117,7 +134,7 @@ SELECT
   '2024-04-01',
   '2024-10-31',
   u.id
-FROM users u WHERE u.email = 'staff@demo.com'
+FROM users u WHERE u.email = 'admin@tripful.com'
 ON CONFLICT DO NOTHING;
 
 -- Create indexes for better performance

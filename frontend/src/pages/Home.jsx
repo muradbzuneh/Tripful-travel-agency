@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { container } from '../assets/aboutContainer.js';
 import { packageService } from '../services/packages';
 import PackageCard from '../componets/packageCard';
 import '../styles/home.css';
+import '../styles/navbar.css'
 
 export default function Home() {
   const [featuredPackages, setFeaturedPackages] = useState([]);
@@ -24,6 +26,28 @@ export default function Home() {
     fetchFeaturedPackages();
   }, []);
 
+  //   const [latestPackages, setLatestPackages] = useState([]);
+  // const [showSuggestions, setShowSuggestions] = useState(false);
+
+  // useEffect(() => {
+  //   const fetchLatestPackages = async () => {
+  //     try {
+  //       const packages = await packageService.getLatestPackages();
+  //       setLatestPackages(packages);
+  //     } catch (error) {
+  //       console.error('Failed to fetch latest packages:', error);
+  //     }
+  //   };
+
+  //   fetchLatestPackages();
+  // }, []);
+  //  const getDaysLeft = (endDate) => {
+  //   const today = new Date();
+  //   const end = new Date(endDate);
+  //   const diffTime = end - today;
+  //   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  //   return diffDays > 0 ? diffDays : 0;
+  // };
   return (
     <div className="home">
       {/* Hero Section */}
@@ -37,41 +61,50 @@ export default function Home() {
           </Link>
         </div>
         <div className="hero-image">
-          <img src="/src/assets/Dubia.jpg" alt="Beautiful destination" />
+          {/* <img src="/src/assets/images/mountain-home.jpg" alt="Beautiful destination" /> */}
+           {/* Suggestions Banner
+      {latestPackages.length > 0 && (
+        <div className="suggestions-banner">
+          <div className="container">
+            <span className="banner-label">🔥 Latest Packages:</span>
+            {latestPackages.map(pkg => {
+              const daysLeft = getDaysLeft(pkg.end_date);
+              return (
+                <Link 
+                  key={pkg.id} 
+                  to={`/package/${pkg.id}`} 
+                  className="suggestion-item"
+                >
+                  {pkg.title} - {daysLeft > 0 ? `${daysLeft} days left!` : 'Limited time!'}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      )} */}
+
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="features">
+      <section className="features" id="About">
         <div className="container">
           <h2>Why Choose Tripful?</h2>
           <div className="features-grid">
-            <div className="feature">
-              <div className="feature-icon">✈️</div>
-              <h3>Complete Packages</h3>
-              <p>Flights + Hotels bundled together for convenience</p>
+            {container.map((con, key) =>(
+                <div key={key} className="feature">
+              <div className="feature-icon">
+              <img src={con.img} alt=""  className='feature-icon-image'/></div>
+              <h3>{con.title}</h3>
+              <p>{con.paragrap}</p>
             </div>
-            <div className="feature">
-              <div className="feature-icon">💳</div>
-              <h3>Book Now, Pay Later</h3>
-              <p>Secure your booking and pay when you're ready</p>
-            </div>
-            <div className="feature">
-              <div className="feature-icon">🌟</div>
-              <h3>Quality Assured</h3>
-              <p>Carefully selected hotels and reliable flight options</p>
-            </div>
-            <div className="feature">
-              <div className="feature-icon">📱</div>
-              <h3>Easy Booking</h3>
-              <p>Simple online booking process, as easy as ordering food!</p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Featured Packages */}
-      <section className="featured-packages">
+      <section className="featured-packages" id='Events'>
         <div className="container">
           <h2>Featured Holiday Packages</h2>
           {loading ? (
@@ -79,7 +112,11 @@ export default function Home() {
           ) : (
             <div className="packages-grid">
               {featuredPackages.map(pkg => (
-                <PackageCard key={pkg.id} pkg={pkg} />
+                <PackageCard 
+                  key={pkg.id} 
+                  pkg={pkg} 
+                  onPackageUpdate={() => fetchFeaturedPackages()}
+                />
               ))}
             </div>
           )}

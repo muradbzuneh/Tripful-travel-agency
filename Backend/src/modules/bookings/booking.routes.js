@@ -7,7 +7,7 @@ import {
 } from "./booking.controller.js";
 
 import { authenticate } from "../../modules/auth/auth.middleware.js";
-import { requireStaff } from "./booking.permissions.js";
+import { requireStaffOrAdmin } from "../../middlewares/roleGuard.js";
 
 const router = express.Router();
 
@@ -15,8 +15,8 @@ const router = express.Router();
 router.post("/", authenticate, createBookingController);
 router.get("/my", authenticate, getMyBookingsController);
 
-// Staff
-router.get("/", authenticate, requireStaff, getAllBookingsController);
-router.patch("/:id/status", authenticate, requireStaff, updateBookingStatusController);
+// Staff & Admin
+router.get("/", authenticate, requireStaffOrAdmin, getAllBookingsController);
+router.patch("/:id/status", authenticate, requireStaffOrAdmin, updateBookingStatusController);
 
 export default router;

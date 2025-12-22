@@ -90,15 +90,11 @@ export default function Login() {
             <p><strong>Staff:</strong> staff@demo.com / password123</p>
           </div>
         </div>
-
-        <div className="auth-image">
-          <img src="/src/assets/sample-beach.jpg" alt="Travel destination" />
           <div className="image-overlay">
             <h3>Start Your Journey</h3>
             <p>Book amazing holidays with ease</p>
           </div>
         </div>
       </div>
-    </div>
   );
 }

@@ -105,7 +105,7 @@ export default function MyBookings() {
               return (
                 <div key={booking.id} className="booking-card">
                   <div className="booking-header">
-                    <h3>Booking #{booking.id.slice(0, 8)}</h3>
+                    {/* <h3>Booking #{booking.id.slice(0, 8)}</h3> */}
                     <div className="booking-statuses">
                       <span 
                         className="status"
@@ -147,7 +147,7 @@ export default function MyBookings() {
                     </div>
                     <div className="detail-row">
                       <span>Booked On:</span>
-                      <span>{formatDate(booking.created_at)}</span>
+                      <span>{formatDate(booking.booked_at)}</span>
                     </div>
                   </div>
 
@@ -183,7 +183,7 @@ export default function MyBookings() {
 
               <div className="modal-content">
                 <div className="payment-info">
-                  <p><strong>Booking:</strong> #{paymentModal.id.slice(0, 8)}</p>
+                  <p><strong>Booking:</strong> #{String(paymentModal.id).slice(0, 8)}</p>
                   <p><strong>Total Amount:</strong> ${paymentModal.total_price}</p>
                   <p><strong>Already Paid:</strong> ${paymentModal.paid_amount}</p>
                   <p><strong>Remaining:</strong> ${(paymentModal.total_price - paymentModal.paid_amount).toFixed(2)}</p>

@@ -138,10 +138,11 @@ export default function Register() {
                 name="role"
                 value={formData.role}
                 onChange={handleChange}
+                disabled
               >
                 <option value="CUSTOMER">Customer</option>
-                <option value="STAFF">Travel Agent (Staff)</option>
               </select>
+              <small className="form-note">Staff and Admin accounts are created by system administrators</small>
             </div>
 
             <button type="submit" disabled={loading} className="auth-button">
@@ -157,7 +158,7 @@ export default function Register() {
         </div>
 
         <div className="auth-image">
-          <img src="/src/assets/Dubia.jpg" alt="Travel destination" />
+          {/* <img src="/src/assets/" alt="Travel destination" /> */}
           <div className="image-overlay">
             <h3>Join Our Community</h3>
             <p>Thousands of travelers trust us</p>

@@ -1,10 +1,13 @@
 import { pool } from "../../config/db.js";
 
-/* Create package (STAFF) */
+/* Create package (STAFF & ADMIN) */
 export const createPackage = async (data, staffId) => {
   const {
     title,
     destination,
+    location,
+    image_url,
+    description,
     flight_summary,
     hotel_name,
     hotel_rating,
@@ -17,13 +20,16 @@ export const createPackage = async (data, staffId) => {
 
   const result = await pool.query(
     `INSERT INTO packages
-     (title, destination, flight_summary, hotel_name, hotel_rating,
+     (title, destination, location, image_url, description, flight_summary, hotel_name, hotel_rating,
       duration_days, price, available_slots, start_date, end_date, created_by)
-     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
+     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)
      RETURNING *`,
     [
       title,
       destination,
+      location,
+      image_url,
+      description,
       flight_summary,
       hotel_name,
       hotel_rating,
@@ -50,12 +56,36 @@ export const getActivePackages = async () => {
   return result.rows;
 };
 
-/* Get ALL packages (STAFF) */
+/* Get ALL packages (STAFF & ADMIN) */
 export const getAllPackages = async () => {
   const result = await pool.query(
     `SELECT *
      FROM packages
      ORDER BY created_at DESC`
+  );
+  return result.rows;
+};
+
+/* Get package by ID (PUBLIC) */
+export const getPackageById = async (id) => {
+  const result = await pool.query(
+    `SELECT *
+     FROM packages
+     WHERE id = $1 AND is_active = true`,
+    [id]
+  );
+  return result.rows[0];
+};
+
+/* Get latest packages for suggestions */
+export const getLatestPackages = async (limit = 2) => {
+  const result = await pool.query(
+    `SELECT *
+     FROM packages
+     WHERE is_active = true
+     ORDER BY created_at DESC
+     LIMIT $1`,
+    [limit]
   );
   return result.rows;
 };

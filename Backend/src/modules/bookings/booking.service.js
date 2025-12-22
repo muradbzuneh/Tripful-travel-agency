@@ -23,7 +23,11 @@ export const createBooking = async ({ userId, packageId, travelDate }) => {
 
 export const getMyBookings = async (userId) => {
   const result = await pool.query(
-    `SELECT * FROM bookings WHERE user_id = $1 ORDER BY user_id`,
+    `SELECT b.*, p.title as package_title, p.destination, p.image_url
+     FROM bookings b
+     LEFT JOIN packages p ON b.package_id = p.id
+     WHERE b.user_id = $1 
+     ORDER BY b.booked_at DESC`,
     [userId]
   );
   return result.rows;
@@ -31,7 +35,11 @@ export const getMyBookings = async (userId) => {
 
 export const getAllBookings = async () => {
   const result = await pool.query(
-    `SELECT * FROM bookings ORDER BY user_id`
+    `SELECT b.*, p.title as package_title, p.destination, u.full_name, u.email
+     FROM bookings b
+     LEFT JOIN packages p ON b.package_id = p.id
+     LEFT JOIN users u ON b.user_id = u.id
+     ORDER BY b.booked_at DESC`
   );
   return result.rows;
 };

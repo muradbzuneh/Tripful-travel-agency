@@ -20,11 +20,11 @@ body {
 
 .main-content {
   flex: 1;
-  padding-top: 80px; /* Account for fixed navbar */
+   /* Account for fixed navbar + suggestions banner */
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 20px;
 }

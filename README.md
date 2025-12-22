@@ -13,10 +13,11 @@ A complete travel booking platform where customers can browse holiday packages, 
 - Track payment status
 
 ### Staff Features
-- Add, edit, and deactivate holiday packages
+- Add, edit, and deactivate holiday packages with image upload
 - View all customer bookings
 - Update booking statuses
 - Manage package availability
+- Upload package images through file manager
 
 ## Tech Stack
 

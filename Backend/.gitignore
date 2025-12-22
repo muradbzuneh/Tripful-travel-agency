@@ -22,3 +22,6 @@ build/
 # Editor
 .vscode/
 .idea/
+
+# Uploads
+uploads/

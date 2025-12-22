@@ -4,11 +4,79 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
 }
 
 .card:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Admin Controls */
+.admin-controls {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.edit-btn,
+.deactivate-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.edit-btn {
+  background: rgba(0, 123, 255, 0.9);
+  color: white;
+}
+
+.edit-btn:hover {
+  background: rgba(0, 123, 255, 1);
+  transform: translateY(-1px);
+}
+
+.deactivate-btn {
+  background: rgba(220, 53, 69, 0.9);
+  color: white;
+}
+
+.deactivate-btn:hover {
+  background: rgba(220, 53, 69, 1);
+  transform: translateY(-1px);
+}
+
+.inactive-badge {
+  padding: 4px 12px;
+  background: rgba(108, 117, 125, 0.9);
+  color: white;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.staff-info {
+  text-align: center;
+  padding: 15px;
+  background: rgba(0, 123, 255, 0.1);
+  border-radius: 6px;
+  margin-top: 15px;
+}
+
+.staff-note {
+  margin: 0;
+  color: #007bff;
+  font-weight: 500;
+  font-size: 14px;
 }
 
 .card-image {
@@ -33,15 +101,37 @@
   font-size: 14px;
 }
 
+.card .location {
+  color: #666;
+  margin: 5px 0;
+  font-size: 14px;
+}
+
 .card .duration {
   color: #666;
   margin: 5px 0;
   font-size: 14px;
 }
 
-.card .hotel {
-  color: #666;
+.hotel-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   margin: 5px 0;
+}
+
+.hotel-name {
+  color: #666;
+  font-size: 14px;
+}
+
+.rating-image {
+  height: 16px;
+  width: auto;
+}
+
+.rating-fallback {
+  color: #666;
   font-size: 14px;
 }
 
@@ -49,6 +139,20 @@
   color: #666;
   margin: 5px 0 15px 0;
   font-size: 14px;
+}
+
+.card .description {
+  color: #555;
+  margin: 10px 0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.form-note {
+  font-size: 12px;
+  color: #666;
+  margin-top: 5px;
+  display: block;
 }
 
 .price-section {

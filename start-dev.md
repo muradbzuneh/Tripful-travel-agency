@@ -27,6 +27,10 @@ psql -U postgres -d Tripful -f Backend/database-setup.sql
 
 ## Test Accounts
 
+**Admin Account:**
+- Email: admin@tripful.com
+- Password: admin123
+
 **Staff Account:**
 - Email: staff@demo.com
 - Password: password123

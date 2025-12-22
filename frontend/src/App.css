@@ -1,10 +1,14 @@
+body{
+   background: linear-gradient(135deg, hsl(125, 97%, 25%) 0%, #4ba29c 100%);
+
+}
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  
 }
-
 .logo {
   height: 6em;
   padding: 1.5em;
