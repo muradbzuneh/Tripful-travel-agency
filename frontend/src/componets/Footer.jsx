@@ -1,8 +1,18 @@
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import '../styles/footer.css';
 
 export default function Footer() {
+   const location = useLocation();
+  
+       useEffect(() => {
+      if (location.state?.scrollTo === "contact") {
+        const section = document.getElementById("contact");
+        section?.scrollIntoView({ behavior: "smooth" });
+      }
+      }, [location]);
   return (
-    <footer className="footer">
+    <footer className="footer" id="contact">
       <div className="container">
         <div className="footer-content">
           <div className="footer-section">

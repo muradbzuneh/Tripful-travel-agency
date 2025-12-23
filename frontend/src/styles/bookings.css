@@ -117,6 +117,7 @@
 
 .booking-actions {
   display: flex;
+  gap: 10px;
   justify-content: flex-end;
 }
 
@@ -133,6 +134,26 @@
 
 .pay-button:hover {
   background-color: #218838;
+}
+
+.cancel-button {
+  padding: 10px 20px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cancel-button:hover {
+  background-color: #c82333;
+}
+
+.cancel-button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
 }
 
 /* Modal Styles */

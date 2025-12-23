@@ -5,6 +5,10 @@ export default function Navbar() {
   const { user, logout, isAuthenticated, isStaffOrAdmin, isAdmin } = useAuth();
   const navigate = useNavigate();
 
+ const handleNavScroll = (section) => (e) => {
+  e.preventDefault();
+  navigate("/", { state: { scrollTo: section } });
+};
 
   const handleLogout = () => {
     logout();
@@ -20,11 +24,15 @@ export default function Navbar() {
         </Link>
         <div className="nav-links">
           <Link to="/">Home</Link>
-          <Link to=""> About us</Link>
+          <Link to="#" onClick={handleNavScroll("about")}> About us</Link>
           <Link to="/packages">Packages</Link>
-          <Link to =""> Services</Link>
-          <Link  to="">Attraction</Link>
-          <Link to="">Destination</Link>
+          <Link to="/services">Services</Link>
+           <Link to="#" onClick={handleNavScroll("Events")}>
+      Events
+    </Link>
+          <Link to="/attractions">Attractions</Link>
+          <Link to="/destinations">Destinations</Link>
+          <Link to="#" onClick={handleNavScroll("contact")}> Contact</Link>
           
           {isAuthenticated ? (
             <>
@@ -34,7 +42,7 @@ export default function Navbar() {
               <div className="user-menu">
                 <span> {user?.full_name}</span>
                 <button onClick={handleLogout} className="logout-btn">
-                  Logout
+                  Logout 
                 </button>
               </div>
             </>

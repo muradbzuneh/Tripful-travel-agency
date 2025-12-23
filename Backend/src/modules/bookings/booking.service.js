@@ -62,3 +62,34 @@ export const updateBookingStatus = async (bookingId, data) => {
 
   return result.rows[0];
 };
+
+export const cancelBooking = async (bookingId, userId) => {
+  // First check if booking exists and belongs to user
+  const checkResult = await pool.query(
+    "SELECT * FROM bookings WHERE id = $1 AND user_id = $2",
+    [bookingId, userId]
+  );
+
+  if (!checkResult.rows.length) {
+    throw new Error("Booking not found or unauthorized");
+  }
+
+  const booking = checkResult.rows[0];
+
+  // Check if booking can be cancelled (not already cancelled or completed)
+  if (booking.booking_status === 'CANCELLED') {
+    throw new Error("Booking is already cancelled");
+  }
+
+  // Update booking status to cancelled
+  const result = await pool.query(
+    `UPDATE bookings
+     SET booking_status = 'CANCELLED',
+         updated_at = CURRENT_TIMESTAMP
+     WHERE id = $1 AND user_id = $2
+     RETURNING *`,
+    [bookingId, userId]
+  );
+
+  return result.rows[0];
+};

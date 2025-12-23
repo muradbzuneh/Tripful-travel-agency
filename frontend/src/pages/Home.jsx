@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useLocation } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import { container } from '../assets/aboutContainer.js';
 import { packageService } from '../services/packages';
@@ -9,6 +10,18 @@ import '../styles/navbar.css'
 export default function Home() {
   const [featuredPackages, setFeaturedPackages] = useState([]);
   const [loading, setLoading] = useState(true);
+    const location = useLocation();
+
+     useEffect(() => {
+    if (location.state?.scrollTo === "about") {
+      const section = document.getElementById("about");
+      section?.scrollIntoView({ behavior: "smooth" });
+    }
+    else if(location.state?.scrollTo === "Events") {
+       const section = document.getElementById("Events");
+      section?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [location]);
 
   useEffect(() => {
     const fetchFeaturedPackages = async () => {
@@ -25,29 +38,7 @@ export default function Home() {
 
     fetchFeaturedPackages();
   }, []);
-
-  //   const [latestPackages, setLatestPackages] = useState([]);
-  // const [showSuggestions, setShowSuggestions] = useState(false);
-
-  // useEffect(() => {
-  //   const fetchLatestPackages = async () => {
-  //     try {
-  //       const packages = await packageService.getLatestPackages();
-  //       setLatestPackages(packages);
-  //     } catch (error) {
-  //       console.error('Failed to fetch latest packages:', error);
-  //     }
-  //   };
-
-  //   fetchLatestPackages();
-  // }, []);
-  //  const getDaysLeft = (endDate) => {
-  //   const today = new Date();
-  //   const end = new Date(endDate);
-  //   const diffTime = end - today;
-  //   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  //   return diffDays > 0 ? diffDays : 0;
-  // };
+ 
   return (
     <div className="home">
       {/* Hero Section */}
@@ -61,33 +52,12 @@ export default function Home() {
           </Link>
         </div>
         <div className="hero-image">
-          {/* <img src="/src/assets/images/mountain-home.jpg" alt="Beautiful destination" /> */}
-           {/* Suggestions Banner
-      {latestPackages.length > 0 && (
-        <div className="suggestions-banner">
-          <div className="container">
-            <span className="banner-label">🔥 Latest Packages:</span>
-            {latestPackages.map(pkg => {
-              const daysLeft = getDaysLeft(pkg.end_date);
-              return (
-                <Link 
-                  key={pkg.id} 
-                  to={`/package/${pkg.id}`} 
-                  className="suggestion-item"
-                >
-                  {pkg.title} - {daysLeft > 0 ? `${daysLeft} days left!` : 'Limited time!'}
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-      )} */}
 
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="features" id="About">
+      <section className="features" id="about">
         <div className="container">
           <h2>Why Choose Tripful?</h2>
           <div className="features-grid">
@@ -104,7 +74,7 @@ export default function Home() {
       </section>
 
       {/* Featured Packages */}
-      <section className="featured-packages" id='Events'>
+      <section className="featured-packages" id='Events' >
         <div className="container">
           <h2>Featured Holiday Packages</h2>
           {loading ? (

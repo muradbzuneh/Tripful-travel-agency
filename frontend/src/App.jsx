@@ -9,6 +9,9 @@ import MyBookings from "./pages/Mybooking";
 import StaffDashboard from "./pages/StaffDashboard";
 import BookingDetails from "./pages/BookingDetails";
 import Navbar from "./componets/Navbar";
+import Attractions from "./pages/Attractions";
+import Destinations from "./pages/Destinations";
+import Services from "./pages/Services";
 import Footer from "./componets/Footer";
 import AIRecommendation from "./componets/AIRecommendation";
 import ProtectedRoute from "./componets/ProtectedRoute";
@@ -26,6 +29,9 @@ function App() {
               <Route path="/package/:id" element={<PackageDetails />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/attractions" element={<Attractions />} />
+              <Route path="/destinations" element={<Destinations />} />
+              <Route path="/services" element={<Services />} />
               <Route 
                 path="/my-bookings" 
                 element={

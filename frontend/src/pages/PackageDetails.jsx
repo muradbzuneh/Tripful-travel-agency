@@ -126,9 +126,9 @@ export default function PackageDetails() {
 
               {pkg.location && (
                 <div className="meta-item">
-                  <img src="/src/assets/images/location.png" className="icon" alt='🗺️'></img>
+                  <img src="/src/assets/images/location.png" className="meta-item-img" alt='🗺️' ></img>
                   <div>
-                    <strong>Location:</strong>
+                    <strong>View Location:</strong>
                     <a href="https://www.google.com/maps/place/Lalibela/@11.0642944,39.7356052,5879m/data=!3m1!1e3!4m6!3m5!1s0x16413eee814f2d03:0xf27414e782ae4b62!8m2!3d12.0308987!4d39.0476298!16zL20vMDJrczB3?entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D" target='_blank'>Location</a>
                   </div>
                 </div>

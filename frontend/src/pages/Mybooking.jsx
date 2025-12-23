@@ -12,6 +12,7 @@ export default function MyBookings() {
   const [paymentAmount, setPaymentAmount] = useState('');
   const [paymentReference, setPaymentReference] = useState('');
   const [paymentLoading, setPaymentLoading] = useState(false);
+  const [cancelLoading, setCancelLoading] = useState(null);
 
   useEffect(() => {
     fetchBookings();
@@ -27,6 +28,23 @@ export default function MyBookings() {
       console.error(err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleCancelBooking = async (bookingId) => {
+    if (!window.confirm('Are you sure you want to cancel this booking?')) {
+      return;
+    }
+
+    setCancelLoading(bookingId);
+    try {
+      await bookingService.cancelBooking(bookingId);
+      alert('Booking cancelled successfully!');
+      fetchBookings(); // Refresh bookings
+    } catch (err) {
+      alert(err.response?.data?.error || 'Failed to cancel booking');
+    } finally {
+      setCancelLoading(null);
     }
   };
 
@@ -151,16 +169,25 @@ export default function MyBookings() {
                     </div>
                   </div>
 
-                  {!isFullyPaid && (
-                    <div className="booking-actions">
+                  <div className="booking-actions">
+                    {!isFullyPaid && (
                       <button 
                         onClick={() => setPaymentModal(booking)}
                         className="pay-button"
                       >
                         Make Payment
                       </button>
-                    </div>
-                  )}
+                    )}
+                    {booking.booking_status !== 'CANCELLED' && (
+                      <button 
+                        onClick={() => handleCancelBooking(booking.id)}
+                        disabled={cancelLoading === booking.id}
+                        className="cancel-button"
+                      >
+                        {cancelLoading === booking.id ? 'Cancelling...' : 'Cancel Booking'}
+                      </button>
+                    )}
+                  </div>
                 </div>
               );
             })}

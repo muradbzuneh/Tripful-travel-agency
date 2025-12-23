@@ -3,6 +3,7 @@ import {
   getMyBookings,
   getAllBookings,
   updateBookingStatus,
+  cancelBooking,
 } from "./booking.service.js";
 
 export const createBookingController = async (req, res) => {
@@ -34,6 +35,15 @@ export const getAllBookingsController = async (req, res) => {
     res.json(bookings);
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+};
+
+export const cancelBookingController = async (req, res) => {
+  try {
+    const booking = await cancelBooking(req.params.id, req.user.id);
+    res.json(booking);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
   }
 };
 

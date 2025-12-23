@@ -19,5 +19,10 @@ export const bookingService = {
   async updateBookingStatus(id, statusData) {
     const response = await api.patch(`/bookings/${id}/status`, statusData);
     return response.data;
+  },
+
+  async cancelBooking(id) {
+    const response = await api.patch(`/bookings/${id}/cancel`);
+    return response.data;
   }
 };
