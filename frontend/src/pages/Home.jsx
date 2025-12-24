@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { container } from '../assets/aboutContainer.js';
 import { packageService } from '../services/packages';
 import PackageCard from '../componets/packageCard';
+import ReviewSection from '../componets/ReviewSection';
 import '../styles/home.css';
 import '../styles/navbar.css'
 
@@ -99,7 +100,7 @@ export default function Home() {
       </section>
 
       {/* How It Works */}
-      <section className="how-it-works">
+      <section className="how-it-works" id="contact">
         <div className="container">
           <h2>How It Works</h2>
           <div className="steps">
@@ -126,6 +127,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Reviews Section */}
+      <ReviewSection />
     </div>
   );
 }

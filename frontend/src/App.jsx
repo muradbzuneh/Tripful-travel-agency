@@ -15,8 +15,25 @@ import Services from "./pages/Services";
 import Footer from "./componets/Footer";
 import AIRecommendation from "./componets/AIRecommendation";
 import ProtectedRoute from "./componets/ProtectedRoute";
+import Preloader from "./componets/Preloader";
+import { useState, useEffect } from "react";
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate app initialization
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 3000); // 3 seconds minimum loading time
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return <Preloader />;
+  }
+
   return (
     <AuthProvider>
       <BrowserRouter>

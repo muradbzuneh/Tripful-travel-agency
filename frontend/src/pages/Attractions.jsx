@@ -98,25 +98,24 @@ export default function Attractions() {
   const getAttractionImage = (attraction) => {
     // Map attraction places to available images
     const imageMap = {
-      'Lalibela': '/src/assets/packages/Lalibela.jpg',
-      'Axum': '/src/assets/packages/Axsum.jpg',
-      'Addis Ababa': '/src/assets/packages/addisabeba.jpg',
-      'Bahir Dar': '/src/assets/packages/Bahrdar.jpg',
-      'Gondar': '/src/assets/packages/Gonder.jpg',
-      'Harar': '/src/assets/packages/Harar.jpg',
-      'Dire Dawa': '/src/assets/packages/diredawa.jpg',
-      'Hawassa': '/src/assets/packages/hawasa.jpg',
-      'Mekelle': '/src/assets/packages/mekele.jpg',
-      'Afar': '/src/assets/packages/Afar.jpg',
-      'Konso':'/src/assets/packages/Afar.jpg',
-      'jigjiga':'/src/assets/packages/Afar.jpg',
-      'asosa':'/src/assets/packages/Afar.jpg',
-      'wolaita sodo':'/src/assets/packages/Afar.jpg',
-      'Gambela':'/src/assets/packages/Afar.jpg',
-      'Debre Damo':'/src/assets/packages/Afar.jpg',
-      'Arba Mnchi':'/src/assets/packages/Afar.jpg',
-      'Jimma':'/src/assets/packages/Afar.jpg',
-      'Adama':'/src/assets/packages/Afar.jpg'
+      'Lalibela': '/src/assets/desandatt/lalibela.jpg',
+      'Axum': '/src/assets/desandatt/Axum.jpg',
+      'Addis Ababa': '/src/assets/desandatt/Addis abeba.jpg',
+      'Bahir Dar': '/src/assets/desandatt/Bahrdar.jpg',
+      'Gondar': '/src/assets/desandatt/Gonder.jpg',
+      'Harar': '/src/assets/desandatt/harar.jpg',
+      'Dire Dawa': '/src/assets/desandatt/Dire dawa.jpg',
+      'Hawassa': '/src/assets/desandatt/hawasa.jpg',
+      'Mekelle': '/src/assets/desandatt/Mekelle.jpg',
+      'Afar': '/src/assets/desandatt/Afar.jpg',
+      'Konso':'/src/assets/desandatt/Konso.jpg',
+      'jigjiga':'/src/assets/desandatt/jigjiga.jpg',
+      'asosa':'/src/assets/desandatt/Asosa.jpg',
+      'wolaita sodo':'/src/assets/desandatt/jimma.jpg',
+      'Gambela':'/src/assets/desandatt/Gambela.jpg',
+      'Arba Mnchi':'/src/assets/desandatt/Arba mnchi.jpg',
+      'Jimma':'/src/assets/desandatt/jimma.jpg',
+      'Adama':'/src/assets/desandatt/jimma.jpg'
 
     };
 
