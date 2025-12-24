@@ -26,13 +26,20 @@ export default function Navbar() {
           <Link to="/">Home</Link>
           <Link to="#" onClick={handleNavScroll("about")}> About us</Link>
           <Link to="/packages">Packages</Link>
-          <Link to="/services">Services</Link>
-           <Link to="#" onClick={handleNavScroll("Events")}>
-      Events
-    </Link>
+          {!isStaffOrAdmin ? (
+            <>
+             <Link to="/services">Services</Link>
+            <Link to="#" onClick={handleNavScroll("Events")}>
+              Events
+        </Link>
           <Link to="/attractions">Attractions</Link>
           <Link to="/destinations">Destinations</Link>
           <Link to="#" onClick={handleNavScroll("contact")}> Contact</Link>
+            </>
+          ):(
+            ""
+          ) }
+        
           
           {isAuthenticated ? (
             <>
