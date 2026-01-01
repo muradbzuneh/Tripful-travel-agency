@@ -86,8 +86,8 @@
 /* Destinations Grid */
 .destinations-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 25px;
   margin-bottom: 50px;
 }
 
@@ -99,6 +99,8 @@
   transition: all 0.3s ease;
   cursor: pointer;
   backdrop-filter: blur(10px);
+  max-width: 380px;
+  margin: 0 auto;
 }
 
 .destination-card:hover {
@@ -108,7 +110,7 @@
 
 .destination-image {
   position: relative;
-  height: 250px;
+  height: 200px;
   overflow: hidden;
 }
 
@@ -140,7 +142,7 @@
 }
 
 .destination-content {
-  padding: 25px;
+  padding: 20px;
 }
 
 .destination-content h4 {
@@ -387,6 +389,11 @@
 @media (max-width: 768px) {
   .destinations-grid {
     grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .destination-card {
+    max-width: 100%;
   }
   
   .destination-info {
