@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { packageService } from '../services/packages';
 import { bookingService } from '../services/bookings';
 import { useAuth } from '../context/AuthContext';
+import { getPackageImageUrl, createImageErrorHandler } from '../utils/imageUtils';
 import '../styles/package-details.css';
 
 export default function PackageDetails() {
@@ -56,19 +57,11 @@ export default function PackageDetails() {
   };
 
   const getRatingImage = (rating) => {
-    return `/src/assets/rating/rating-0${rating}-.png`;
+    return `/src/assets/ratings/rating-${Math.floor(rating * 10)}.png`;
   };
 
-  const getPackageImage = (pkg) => {
-    if (pkg.image_url) {
-      // If it's a backend uploaded image, prepend the backend URL
-      if (pkg.image_url.startsWith('/uploads/')) {
-        return `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${pkg.image_url}`;
-      }
-      return pkg.image_url;
-    }
-    return `/src/assets/packages/${pkg.destination}.jpg`;
-  };
+  // Create image error handler only when package is loaded
+  const imageErrorHandler = pkg ? createImageErrorHandler(pkg) : null;
 
   const today = new Date().toISOString().split('T')[0];
 
@@ -97,12 +90,10 @@ export default function PackageDetails() {
         <div className="package-details">
           <div className="package-image-section">
             <img 
-              src={getPackageImage(pkg)} 
+              src={getPackageImageUrl(pkg)} 
               alt={pkg.title}
               className="main-image"
-              onError={(e) => {
-                e.target.src = `/src/assets/packages/${pkg.destination}.jpg`;
-              }}
+              onError={imageErrorHandler || undefined}
             />
           </div>
 

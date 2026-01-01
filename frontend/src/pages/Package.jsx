@@ -140,9 +140,6 @@ export default function Packages() {
           <div className="packages-grid">
             {filteredPackages.map(pkg => (
               <div key={pkg.id} className="package-item">
-                <Link to={`/package/${pkg.id}`} className="view-details-link">
-                  View Details
-                </Link>
                 <PackageCard 
                   pkg={pkg} 
                   onBookingSuccess={handleBookingSuccess}

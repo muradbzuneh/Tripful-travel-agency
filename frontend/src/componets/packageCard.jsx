@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
-import { useTheme } from "../context/ThemeContext";
 import { bookingService } from "../services/bookings";
 import { packageService } from "../services/packages";
+import { getPackageImageUrl, createImageErrorHandler } from "../utils/imageUtils";
 import "../styles/card.css";
 
 export default function PackageCard({
@@ -17,6 +17,19 @@ export default function PackageCard({
   const [error, setError] = useState("");
   const [isHovered, setIsHovered] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageSrc, setImageSrc] = useState("");
+  const [imageErrorHandler, setImageErrorHandler] = useState(null);
+
+  // Initialize image source and error handler
+  useEffect(() => {
+    const primaryImageUrl = getPackageImageUrl(pkg);
+    setImageSrc(primaryImageUrl);
+    
+    const errorHandler = createImageErrorHandler(pkg, () => {
+      setImageLoaded(true); // Mark as loaded even if all images fail
+    });
+    setImageErrorHandler(() => errorHandler);
+  }, [pkg.id, pkg.image_url, pkg.destination, pkg.title]);
 
   const handleBookNow = async (e) => {
     e.preventDefault();
@@ -64,24 +77,6 @@ export default function PackageCard({
     window.location.href = `/staff?edit=${pkg.id}`;
   };
 
-  const getRatingImage = (rating) => {
-    return `/src/assets/rating/rating-0${rating}.png`;
-  };
-
-  const getPackageImage = (pkg) => {
-    if (pkg.image_url) {
-      // If it's a backend uploaded image, prepend the backend URL
-      if (pkg.image_url.startsWith("/uploads/")) {
-        return `${import.meta.env.VITE_API_URL || "http://localhost:5000"}${
-          pkg.image_url
-        }`;
-      }
-      return pkg.image_url;
-    }
-    // Fallback to sample image
-    return `/src/assets/packages/${pkg.title}.jpg`;
-  };
-
   // Get minimum date (today)
   const today = new Date().toISOString().split("T")[0];
 
@@ -122,14 +117,11 @@ export default function PackageCard({
           </div>
         )}
         <img
-          src={getPackageImage(pkg)}
+          src={imageSrc}
           alt={pkg.title}
           className={`card-image ${imageLoaded ? 'loaded' : ''}`}
           onLoad={() => setImageLoaded(true)}
-          onError={(e) => {
-            e.target.src = "/src/assets/images/ethiopia.jpg";
-            setImageLoaded(true);
-          }}
+          onError={imageErrorHandler}
         />
         
         {/* Overlay with Quick Actions */}
@@ -150,6 +142,13 @@ export default function PackageCard({
           <div className="price-badge">
             <span className="price-amount">${pkg.price}</span>
             <span className="price-label">per person</span>
+          </div>
+          
+          {/* View Details Button */}
+          <div className="view-details-overlay">
+            <a href={`/package/${pkg.id}`} className="view-details-btn">
+              👁️ View Details
+            </a>
           </div>
         </div>
       </div>
