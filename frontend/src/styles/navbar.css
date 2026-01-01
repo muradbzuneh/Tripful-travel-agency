@@ -120,13 +120,13 @@
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 20px;
 }
 
 .nav-links-container {
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 20px;
 }
 
 .nav-links a {
