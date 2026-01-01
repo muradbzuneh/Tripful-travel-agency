@@ -6,9 +6,9 @@ export const registerUser = async (data) => {
   const { full_name, email, password, role, phone } = data;
 
   // Restrict staff and admin registration
-  if (role && ["STAFF", "ADMIN"].includes(role)) {
-    throw new Error("Staff and Admin accounts must be created by system administrator");
-  }
+  // if (role && ["STAFF", "ADMIN"].includes(role)) {
+  //   throw new Error("Staff and Admin accounts must be created by system administrator");
+  // }
 
   const hashedPassword = await hashPassword(password);
 
