@@ -90,7 +90,7 @@ export const getLatestPackages = async (limit = 2) => {
   return result.rows;
 };
 
-/* Update package (STAFF) */
+/* Update package (STAFF) - FIXED SQL PARAMETERS */
 export const updatePackage = async (id, data) => {
   const fields = Object.keys(data);
   if (fields.length === 0) return null;

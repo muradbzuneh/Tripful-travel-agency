@@ -17,6 +17,7 @@ import AIRecommendation from "./componets/AIRecommendation";
 import ProtectedRoute from "./componets/ProtectedRoute";
 import Preloader from "./componets/Preloader";
 import { useState, useEffect } from "react";
+import "./styles/animations.css";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);

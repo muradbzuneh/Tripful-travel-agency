@@ -18,7 +18,7 @@ logs/
 # Build
 dist/
 build/
-
+multer.config.js
 # Editor
 .vscode/
 .idea/

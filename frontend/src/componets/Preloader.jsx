@@ -4,13 +4,27 @@ import '../styles/preloader.css';
 export default function Preloader() {
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // Array of 3 images to display quickly
+  const preloaderImages = [
+    '/src/assets/images/ariplane.jpg',
+    '/src/assets/images/ethiopia.jpg',
+    '/src/assets/images/mountain-home.jpg'
+  ];
 
   useEffect(() => {
+    // Cycle through images quickly
+    const imageInterval = setInterval(() => {
+      setCurrentImageIndex(prev => (prev + 1) % preloaderImages.length);
+    }, 800); // Change image every 800ms
+
     // Simulate loading progress
-    const interval = setInterval(() => {
+    const progressInterval = setInterval(() => {
       setProgress(prev => {
         if (prev >= 100) {
-          clearInterval(interval);
+          clearInterval(progressInterval);
+          clearInterval(imageInterval);
           setTimeout(() => setLoading(false), 500);
           return 100;
         }
@@ -18,7 +32,10 @@ export default function Preloader() {
       });
     }, 1000);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(progressInterval);
+      clearInterval(imageInterval);
+    };
   }, []);
 
   if (!loading) return null;
@@ -38,8 +55,15 @@ export default function Preloader() {
           <div className="cloud cloud-3">☁️</div>
         </div>
 
-        {/* Logo and branding */}
+        {/* Logo and branding with rotating images */}
         <div className="preloader-brand">
+          <div className="rotating-images">
+            <img 
+              src={preloaderImages[currentImageIndex]} 
+              alt="Loading" 
+              className="preloader-image"
+            />
+          </div>
           <h1 className="brand-name">Tripful</h1>
           <p className="brand-tagline">Your Journey Begins Here</p>
 

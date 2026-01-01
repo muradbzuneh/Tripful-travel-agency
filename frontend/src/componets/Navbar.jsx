@@ -112,7 +112,17 @@ export default function Navbar() {
                   </Link>
                 )}
                 <div className="user-menu">
-                  <span className="user-name">👤 {user?.full_name}</span>
+                  <span className="user-name">
+                    {(() => {
+                      if (user?.full_name) {
+                        const names = user.full_name.split(' ');
+                        const firstInitial = names[0]?.charAt(0).toUpperCase() || '';
+                        const fatherInitial = names[1]?.charAt(0).toUpperCase() || '';
+                        return `👤 ${firstInitial}${fatherInitial}`;
+                      }
+                      return '👤 User';
+                    })()}
+                  </span>
                   <button onClick={handleLogout} className="logout-btn">
                     Logout
                   </button>

@@ -46,6 +46,13 @@ export const container =[
     img: "src/assets/images/ethiopia.jpg",
     title: "The Whole Destinations",
     paragrap: "Explore top destinations around the counrty with customized travel experiences."
-  }
+  },
+  {
+  id: 9,
+  img: "src/assets/images/easy.jpg",
+  title: "Easy Trip Management",
+  paragrap: "Manage your bookings, payments, and travel details easily through your personal dashboard."
+}
+
 
 ]

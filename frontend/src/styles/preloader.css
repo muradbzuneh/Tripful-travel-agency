@@ -5,7 +5,10 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #667eea 0%, #23a3de 50%, #f093fb 100%);
+  background: linear-gradient(135deg, rgba(30, 64, 175, 0.9), rgba(59, 130, 246, 0.8)),
+              url('../assets/images/preloder.jpg');
+  background-size: cover;
+  background-position: center;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -32,12 +35,12 @@
 .plane {
   position: absolute;
   top: 50%;
-  left: -50px;
-  transform: translateY(-50%);
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 60px;
   height: 60px;
   color: white;
-  animation: flyAcross 4s linear infinite;
+  animation: flyForward 3s ease-in-out infinite;
 }
 
 .plane svg {
@@ -74,6 +77,24 @@
 /* Brand Section */
 .preloader-brand {
   margin-bottom: 40px;
+}
+
+.rotating-images {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.preloader-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.5s ease-in-out;
+  animation: imageRotate 0.8s ease-in-out infinite;
 }
 
 .brand-name {
@@ -195,6 +216,36 @@
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+
+@keyframes imageRotate {
+  0% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05) rotate(180deg);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1) rotate(360deg);
+    opacity: 1;
+  }
+}
+
+@keyframes flyForward {
+  0% {
+    transform: translate(-50%, -50%) scale(0.5) rotateY(0deg);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.2) rotateY(180deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(0.5) rotateY(360deg);
+    opacity: 0.7;
+  }
 }
 
 @keyframes flyAcross {

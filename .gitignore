@@ -100,9 +100,9 @@ jspm_packages/
 ehthumbs.db
 Thumbs.db
 
-# Package lock files (keep only one)
-package-lock.json
-yarn.lock
+# Package lock files (keep only project-specific ones)
+/package-lock.json
+/yarn.lock
 
 # Uploads directory
 uploads/
@@ -111,3 +111,6 @@ uploads/
 # Temporary files
 *.tmp
 *.temp
+
+# Unnecessary project directories
+my-react-app/
