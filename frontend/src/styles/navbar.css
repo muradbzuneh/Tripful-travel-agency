@@ -140,6 +140,7 @@
   transition: all 0.3s ease;
   position: relative;
   text-transform: capitalize;
+  border-bottom: 2px solid transparent;
 }
 
 .nav-links a::before {
@@ -149,7 +150,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(59, 130, 246, 0.1);
   border-radius: 6px;
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -162,7 +163,8 @@
 
 .nav-links a:hover {
   transform: translateY(-1px);
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border-bottom-color: #3b82f6;
+  color: #1e40af;
 }
 
 /* Auth Links */
