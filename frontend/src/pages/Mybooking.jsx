@@ -1,21 +1,17 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import { getTranslation } from '../utils/translations';
 import { bookingService } from '../services/bookings';
-import { paymentService } from '../services/payments';
 import '../styles/bookings.css';
 
 export default function MyBookings() {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [paymentModal, setPaymentModal] = useState(null);
-  const [paymentAmount, setPaymentAmount] = useState('');
-  const [paymentReference, setPaymentReference] = useState('');
-  const [paymentLoading, setPaymentLoading] = useState(false);
   const [cancelLoading, setCancelLoading] = useState(null);
   const { language } = useTheme();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchBookings();
@@ -51,31 +47,20 @@ export default function MyBookings() {
     }
   };
 
-  const handlePayment = async (e) => {
-    e.preventDefault();
-    if (!paymentAmount || !paymentReference) {
-      alert('Please fill in all payment details');
-      return;
-    }
-
-    setPaymentLoading(true);
-    try {
-      await paymentService.createPayment({
-        booking_id: paymentModal.id,
-        amount: parseFloat(paymentAmount),
-        reference: paymentReference
-      });
-
-      alert('Payment processed successfully!');
-      setPaymentModal(null);
-      setPaymentAmount('');
-      setPaymentReference('');
-      fetchBookings(); // Refresh bookings
-    } catch (err) {
-      alert(err.response?.data?.error || 'Payment failed');
-    } finally {
-      setPaymentLoading(false);
-    }
+  const handlePaymentClick = (booking) => {
+    // Navigate to payment page with booking data
+    navigate('/payment', {
+      state: {
+        bookingData: {
+          bookingId: booking.id,
+          packageTitle: `Package #${booking.package_id}`,
+          destination: 'Travel Package', // You might want to fetch this from package details
+          travelDate: booking.travel_date,
+          duration: '7', // You might want to fetch this from package details
+          amount: (booking.total_price - booking.paid_amount).toFixed(2)
+        }
+      }
+    });
   };
 
   const formatDate = (dateString) => {
@@ -193,7 +178,7 @@ export default function MyBookings() {
                   <div className="booking-actions">
                     {!isFullyPaid && booking.booking_status !== 'CANCELLED' && (
                       <button 
-                        onClick={() => setPaymentModal(booking)}
+                        onClick={() => handlePaymentClick(booking)}
                         className="action-btn primary"
                       >
                         <span className="btn-icon">💳</span>
@@ -224,109 +209,6 @@ export default function MyBookings() {
                 </div>
               );
             })}
-          </div>
-        )}
-
-        {/* Enhanced Payment Modal */}
-        {paymentModal && (
-          <div className="modal-overlay">
-            <div className="modal animate-scaleIn">
-              <div className="modal-header">
-                <h3>
-                  <span className="modal-icon">💳</span>
-                  {getTranslation('makePayment', language)}
-                </h3>
-                <button 
-                  onClick={() => setPaymentModal(null)}
-                  className="close-button"
-                >
-                  ✕
-                </button>
-              </div>
-
-              <div className="modal-content">
-                <div className="payment-summary">
-                  <div className="summary-item">
-                    <span className="summary-label">Booking:</span>
-                    <span className="summary-value">#{String(paymentModal.id).slice(0, 8)}</span>
-                  </div>
-                  <div className="summary-item">
-                    <span className="summary-label">{getTranslation('totalPrice', language)}:</span>
-                    <span className="summary-value">${paymentModal.total_price}</span>
-                  </div>
-                  <div className="summary-item">
-                    <span className="summary-label">Already Paid:</span>
-                    <span className="summary-value">${paymentModal.paid_amount}</span>
-                  </div>
-                  <div className="summary-item highlight">
-                    <span className="summary-label">{getTranslation('remaining', language)}:</span>
-                    <span className="summary-value">${(paymentModal.total_price - paymentModal.paid_amount).toFixed(2)}</span>
-                  </div>
-                </div>
-
-                <form onSubmit={handlePayment} className="payment-form">
-                  <div className="form-group">
-                    <label htmlFor="amount">Payment Amount</label>
-                    <div className="input-wrapper">
-                      <span className="input-prefix">$</span>
-                      <input
-                        type="number"
-                        id="amount"
-                        value={paymentAmount}
-                        onChange={(e) => setPaymentAmount(e.target.value)}
-                        min="0.01"
-                        max={paymentModal.total_price - paymentModal.paid_amount}
-                        step="0.01"
-                        required
-                        placeholder="0.00"
-                        className="amount-input"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="form-group">
-                    <label htmlFor="reference">Payment Reference</label>
-                    <input
-                      type="text"
-                      id="reference"
-                      value={paymentReference}
-                      onChange={(e) => setPaymentReference(e.target.value)}
-                      required
-                      placeholder="e.g., Credit Card, Bank Transfer, etc."
-                      className="reference-input"
-                    />
-                  </div>
-
-                  <div className="modal-actions">
-                    <button 
-                      type="submit" 
-                      disabled={paymentLoading}
-                      className="action-btn primary large"
-                    >
-                      {paymentLoading ? (
-                        <>
-                          <span className="loading-spinner"></span>
-                          <span>Processing...</span>
-                        </>
-                      ) : (
-                        <>
-                          <span className="btn-icon">💳</span>
-                          <span>Process Payment</span>
-                        </>
-                      )}
-                    </button>
-                    <button 
-                      type="button"
-                      onClick={() => setPaymentModal(null)}
-                      className="action-btn secondary large"
-                    >
-                      <span className="btn-icon">❌</span>
-                      <span>Cancel</span>
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
           </div>
         )}
       </div>

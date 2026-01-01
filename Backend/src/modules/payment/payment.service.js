@@ -1,59 +1,61 @@
-import {pool} from "../../config/db.js";
+import axios from "axios";
+import { v4 as uuidv4 } from "uuid";
 
-export const createPayment = async ({
-  bookingId,
-  userId,
-  amount,
-  reference,
-}) => {
-  // 1. Get booking
-  const bookingRes = await pool.query(
-    "SELECT * FROM bookings WHERE id = $1",
-    [bookingId]
+const initializePayment = async (paymentData) => {
+  const tx_ref = uuidv4();
+
+  const response = await axios.post(
+    "https://api.chapa.co/v1/transaction/initialize",
+    {
+      amount: paymentData.amount,
+      currency: "ETB",
+      email: paymentData.email,
+      first_name: paymentData.firstName,
+      last_name: paymentData.lastName,
+      tx_ref: tx_ref,
+      callback_url: process.env.CHAPA_CALLBACK_URL,
+      return_url: process.env.CHAPA_RETURN_SUCCESS_URL,
+      customization: {
+        title: "Tripful Travel Agency",
+        description: "Travel Package Payment",
+      },
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.CHAPA_SECRET_KEY}`,
+        "Content-Type": "application/json",
+      },
+    }
   );
 
-  if (!bookingRes.rows.length) {
-    throw new Error("Booking not found");
-  }
+  return {
+    checkout_url: response.data.data.checkout_url,
+    tx_ref,
+  };
+};
 
-  const booking = bookingRes.rows[0];
-
-  // 2. Prevent overpayment
-  const newPaidAmount = Number(booking.paid_amount) + Number(amount);
-
-  if (newPaidAmount > booking.total_price) {
-    throw new Error("Payment exceeds total price");
-  }
-
-  // 3. Insert payment record
-  await pool.query(
-    `INSERT INTO payments (booking_id, user_id, amount, transaction_ref)
-     VALUES ($1, $2, $3, $4)`,
-    [bookingId, userId, amount, reference]
+const verifyPayment = async (tx_ref) => {
+  const response = await axios.get(
+    `https://api.chapa.co/v1/transaction/verify/${tx_ref}`,
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.CHAPA_SECRET_KEY}`,
+      },
+    }
   );
 
-  // 4. Determine statuses
-  let payment_statu = "UNPAID";
-  let booking_statu = "PENDING";
-
-  if (newPaidAmount === booking.total_price) {
-    payment_statu = "SUCCESS";
-    booking_statu = "CONFIRMED";
-  } else if (newPaidAmount > 0) {
-    payment_statu = "PENDING";
+  if (
+    response.data.status === "success" &&
+    response.data.data.status === "success"
+  ) {
+    // ✅ HERE: update DB → payment_status = CONFIRMED
+    return "success";
   }
 
-  // 5. Update booking
-  const updatedBooking = await pool.query(
-    `UPDATE bookings
-     SET paid_amount = $1,
-         payment_status = $2,
-         booking_status = $3,
-         updated_at = CURRENT_TIMESTAMP
-     WHERE id = $4
-     RETURNING *`,
-    [newPaidAmount, payment_statu, booking_statu, bookingId]
-  );
+  return "failed";
+};
 
-  return updatedBooking.rows[0];
+export {
+  initializePayment,
+  verifyPayment,
 };

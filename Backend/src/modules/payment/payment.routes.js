@@ -1,9 +1,12 @@
 import express from "express";
-import { createPaymentController } from "./payment.controller.js";
-import { authenticate } from "../../modules/auth/auth.middleware.js";
+import { initializePaymentController, verifyPaymentController } from "./payment.controller.js";
 
 const router = express.Router();
 
-router.post("/", authenticate, createPaymentController);
+// Initialize payment
+router.post("/pay", initializePaymentController);
+
+// Verify payment
+router.get("/verify", verifyPaymentController);
 
 export default router;

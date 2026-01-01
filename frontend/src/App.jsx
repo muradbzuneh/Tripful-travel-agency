@@ -9,6 +9,9 @@ import Register from "./pages/Register";
 import MyBookings from "./pages/Mybooking";
 import StaffDashboard from "./pages/StaffDashboard";
 import BookingDetails from "./pages/BookingDetails";
+import Payment from "./pages/Payment";
+import PaymentSuccess from "./pages/PaymentSuccess";
+import PaymentFailed from "./pages/PaymentFailed";
 import Navbar from "./componets/Navbar";
 import Attractions from "./pages/Attractions";
 import Destinations from "./pages/Destinations";
@@ -69,6 +72,16 @@ function AppContent() {
                   </ProtectedRoute>
                 } 
               />
+              <Route 
+                path="/payment" 
+                element={
+                  <ProtectedRoute>
+                    <Payment />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route path="/payment-success" element={<PaymentSuccess />} />
+              <Route path="/payment-failed" element={<PaymentFailed />} />
               <Route 
                 path="/staff" 
                 element={
