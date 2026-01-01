@@ -29,54 +29,18 @@
 
 .search-controls {
   display: flex;
-  flex-direction: column;
-  gap: 20px;
+  justify-content: center;
   max-width: 800px;
   margin: 0 auto;
-   background: linear-gradient(135deg, #5a6dbe 0%, #d9d5dc 100%);
-  padding: 10px 15px;
-}
-
-.select-box {
-  display: flex;
-  justify-content: center;
-}
-
-.select-box select {
-  padding: 15px 25px;
-  font-size: 16px;
-  border: 2px solid rgba(255,255,255,0.3);
+  background: linear-gradient(135deg, #5a6dbe 0%, #d9d5dc 100%);
+  padding: 20px;
   border-radius: 25px;
-  background: rgba(46, 109, 209, 0.1);
-  color: white;
-  cursor: pointer;
-  min-width: 350px;
-  transition: all 0.3s ease;
-  appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 15px center;
-  background-size: 20px;
-  padding-right: 50px;
-  backdrop-filter: blur(10px);
-}
-
-.select-box select option {
-  background: #2c3e50;
-  color: white;
-  padding: 10px;
-}
-
-.select-box select:focus {
-  outline: none;
-  border-color: rgba(255,255,255,0.8);
-  background: rgba(255,255,255,0.2);
-  box-shadow: 0 0 20px rgba(255,255,255,0.2);
 }
 
 .search-box {
   display: flex;
   gap: 15px;
+  width: 100%;
 }
 
 .search-box input {
@@ -88,6 +52,7 @@
   background: rgba(255,255,255,0.1);
   color: white;
   transition: all 0.3s ease;
+  min-width: 400px;
 }
 
 .search-box input::placeholder {
@@ -429,14 +394,15 @@
   }
   
   .search-controls {
-    padding: 0 20px;
+    padding: 20px;
+    margin: 0 20px;
   }
   
   .search-box {
     flex-direction: column;
   }
   
-  .select-box select {
+  .search-box input {
     min-width: 100%;
   }
   

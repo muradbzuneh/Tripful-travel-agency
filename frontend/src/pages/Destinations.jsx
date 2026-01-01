@@ -126,36 +126,22 @@ export default function Destinations() {
         {/* Search Section */}
         <div className="search-section">
           <div className="search-controls">
-            <div className="select-box">
-              <select 
+            <div className="search-box">
+              <input
+                type="text"
+                list="destinations-list"
+                placeholder="Search destinations by city, description, or hotels..."
                 value={searchTerm}
-                onChange={(e) => {
-                  setSearchTerm(e.target.value);
-                  if (e.target.value) {
-                    handleSearch();
-                  } else {
-                    setDestinations(defaultDestinations);
-                    setSelectedDestination(null);
-                    setRelatedPackages([]);
-                  }
-                }}
-              >
-                <option value="">Select a Destination</option>
+                onChange={(e) => setSearchTerm(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+              />
+              <datalist id="destinations-list">
                 {topCities.map(dest => (
                   <option key={dest.id} value={dest.city}>
                     {dest.city}
                   </option>
                 ))}
-              </select>
-            </div>
-            <div className="search-box">
-              <input
-                type="text"
-                placeholder="Or search destinations by city, description, or hotels..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-              />
+              </datalist>
               <button onClick={handleSearch} disabled={loading}>
                 {loading ? '🔍 Searching...' : '🔍 Search'}
               </button>

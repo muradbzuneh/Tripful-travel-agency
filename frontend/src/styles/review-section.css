@@ -1,6 +1,6 @@
 /* Review Section */
 .review-section {
-  background: linear-gradient(135deg, #e7aae2 0%, #322792 100%);
+  background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
   padding: 60px 0;
   margin-top: 40px;
   position: relative;
@@ -87,20 +87,25 @@
 .reviews-grid {
   display: grid;
   gap: 20px;
+  justify-items: center;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 350px));
+  justify-content: center;
 }
 
 .review-card {
-  background: white;
-  padding: 25px;
+  background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+  padding: 20px;
   border-radius: 15px;
   box-shadow: 0 5px 20px rgba(0,0,0,0.1);
   transition: all 0.3s ease;
-  border-left: 4px solid #3498db;
+  border: 1px solid #3b82f6;
+  max-width: 350px;
 }
 
 .review-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  box-shadow: 0 10px 30px rgba(59, 130, 246, 0.15);
+  background: #ffffff;
 }
 
 .review-header-card {
@@ -153,13 +158,20 @@
 
 /* Submit Review Form */
 .submit-review {
-  background: white;
+  background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
   padding: 30px;
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.1);
   height: fit-content;
   position: sticky;
   top: 20px;
+  border: 1px solid #3b82f6;
+  transition: all 0.3s ease;
+}
+
+.submit-review:hover {
+  background: #ffffff;
+  box-shadow: 0 15px 40px rgba(59, 130, 246, 0.15);
 }
 
 .submit-review h3 {
@@ -225,23 +237,27 @@
 }
 
 .login-btn {
-  background: linear-gradient(45deg, #007bff, #0056b3);
+  background: linear-gradient(135deg, #3b82f6, #1e40af);
   color: white;
+  border: 1px solid #3b82f6;
 }
 
 .login-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+  background: linear-gradient(135deg, #1e40af, #1e3a8a);
 }
 
 .register-btn {
-  background: linear-gradient(45deg, #28a745, #20c997);
+  background: linear-gradient(135deg, #f59e0b, #d97706);
   color: white;
+  border: 1px solid #f59e0b;
 }
 
 .register-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+  box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
+  background: linear-gradient(135deg, #d97706, #b45309);
 }
 
 .auth-benefits {
@@ -288,7 +304,7 @@
 }
 
 .star {
-  font-size: 24px;
+  font-size: 16px;
   cursor: default;
   transition: all 0.2s ease;
   opacity: 0.3;
@@ -369,10 +385,17 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 20px;
-  background: white;
+  background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
   padding: 30px;
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  border: 1px solid #3b82f6;
+  transition: all 0.3s ease;
+}
+
+.trust-indicators:hover {
+  background: #ffffff;
+  box-shadow: 0 15px 40px rgba(59, 130, 246, 0.15);
 }
 
 .trust-item {

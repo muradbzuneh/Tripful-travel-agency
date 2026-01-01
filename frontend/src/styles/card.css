@@ -1,19 +1,20 @@
 /* Enhanced Interactive Package Card Component */
 .card {
-  background: var(--bg-primary);
+  background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
   border-radius: 16px;
   box-shadow: 0 8px 32px var(--shadow-light);
   overflow: hidden;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
-  border: 1px solid var(--border-color);
+  border: 1px solid #3b82f6;
   transform: translateY(0);
 }
 
 .card.hovered {
   transform: translateY(-12px) scale(1.02);
   box-shadow: 0 20px 60px var(--shadow-heavy);
-  border-color: var(--accent-primary);
+  border-color: #3b82f6;
+  background: #ffffff;
 }
 
 .card.inactive {
@@ -122,7 +123,7 @@
 
 .card.hovered .quick-action-btn {
   transform: translateY(0);
-  opacity: 1;
+  opacity: 0;
 }
 
 .quick-action-btn:nth-child(1) { transition-delay: 0.1s; }
@@ -130,7 +131,7 @@
 .quick-action-btn:nth-child(3) { transition-delay: 0.3s; }
 
 .quick-action-btn:hover {
-  background: white;
+  background: rgba(255, 255, 255, 0.9);
   transform: scale(1.1);
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
@@ -274,7 +275,7 @@
 /* Card Content */
 .card-content {
   padding: 24px;
-  background: var(--bg-primary);
+  background: inherit;
 }
 
 .card-header {
@@ -358,7 +359,7 @@
 }
 
 .star {
-  font-size: 12px;
+  font-size: 10px;
   opacity: 0.3;
   transition: opacity 0.2s ease;
 }
@@ -411,37 +412,40 @@
 /* Availability Info */
 .availability-info {
   margin: 16px 0;
-  padding: 12px;
-  background: var(--bg-secondary);
-  border-radius: 12px;
-  border: 1px solid var(--border-color);
+  padding: 8px 12px;
+  background: transparent;
+  border-radius: 8px;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  max-width: 200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .slots-info {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
+  gap: 6px;
+  margin-bottom: 6px;
 }
 
 .slots-icon {
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .slots-text {
   color: var(--text-secondary);
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 500;
 }
 
 .urgency-indicator {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 10px;
+  gap: 4px;
+  padding: 4px 8px;
   background: rgba(245, 158, 11, 0.1);
   border: 1px solid rgba(245, 158, 11, 0.2);
-  border-radius: 8px;
+  border-radius: 6px;
   animation: pulse 2s infinite;
 }
 
@@ -451,13 +455,13 @@
 }
 
 .urgency-icon {
-  font-size: 12px;
+  font-size: 10px;
   color: var(--accent-warning);
 }
 
 .urgency-text {
   color: var(--accent-warning);
-  font-size: 11px;
+  font-size: 9px;
   font-weight: 600;
 }
 

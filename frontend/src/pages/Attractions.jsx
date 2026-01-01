@@ -133,36 +133,22 @@ export default function Attractions() {
         {/* Search Section */}
         <div className="search-section">
           <div className="search-controls">
-            <div className="select-box">
-              <select 
+            <div className="search-box">
+              <input
+                type="text"
+                list="attractions-list"
+                placeholder="Search attractions by place, history, or landmarks..."
                 value={searchTerm}
-                onChange={(e) => {
-                  setSearchTerm(e.target.value);
-                  if (e.target.value) {
-                    handleSearch();
-                  } else {
-                    setAttractions(defaultAttractions);
-                    setSelectedAttraction(null);
-                    setRelatedPackages([]);
-                  }
-                }}
-              >
-                <option value="">Select an Attraction</option>
+                onChange={(e) => setSearchTerm(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+              />
+              <datalist id="attractions-list">
                 {attraction.map(attr => (
                   <option key={attr.id} value={attr.place}>
                     {attr.place}
                   </option>
                 ))}
-              </select>
-            </div>
-            <div className="search-box">
-              <input
-                type="text"
-                placeholder="Or search attractions by place, history, or landmarks..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-              />
+              </datalist>
               <button onClick={handleSearch} disabled={loading}>
                 {loading ? '🔍 Searching...' : '🔍 Search'}
               </button>

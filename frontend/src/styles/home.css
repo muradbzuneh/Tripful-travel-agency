@@ -48,7 +48,7 @@
   font-family: 'Inter', 'Segoe UI', sans-serif;
   text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   line-height: 1.1;
-  color: #ffffff;
+  color: #1e40af;
   letter-spacing: -1px;
 }
 
@@ -60,6 +60,7 @@
   font-weight: 400;
   line-height: 1.5;
   font-family: 'Inter', sans-serif;
+  color: #1e40af;
 }
 
 .hero-subtitle {
@@ -157,19 +158,19 @@
 .feature {
   text-align: center;
   padding: 40px 30px;
-  background: #ffffff;
+  background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
   border-radius: 16px;
   transition: all 0.3s ease;
   position: relative;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e2e8f0;
+  border: 1px solid #3b82f6;
 }
 
 .feature:hover {
   transform: translateY(-8px);
   box-shadow: 0 20px 40px rgba(59, 130, 246, 0.15);
   border-color: #3b82f6;
-  background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+  background: #ffffff;
 }
 
 .feature-icon-image {
@@ -301,34 +302,38 @@
 }
 
 .steps {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 40px;
-  max-width: 1200px;
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 20px;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .step {
   text-align: center;
   padding: 40px 30px;
-  background: #ffffff;
+  background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
   border-radius: 16px;
   transition: all 0.3s ease;
   position: relative;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e2e8f0;
-  height: 100%;
+  border: 1px solid #3b82f6;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  min-width: 280px;
+  max-width: 320px;
+  flex: 1;
 }
 
 .step:hover {
   transform: translateY(-8px);
   box-shadow: 0 20px 40px rgba(59, 130, 246, 0.15);
   border-color: #3b82f6;
-  background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+  background: #ffffff;
 }
 
 .step-number {
@@ -451,8 +456,14 @@
   }
   
   .steps {
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    flex-direction: column;
+    align-items: center;
     gap: 30px;
+  }
+  
+  .step {
+    min-width: 100%;
+    max-width: 400px;
   }
   
   .feature,
@@ -499,7 +510,13 @@
   }
   
   .steps {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .step {
+    min-width: 100%;
+    max-width: 100%;
   }
   
   .feature,
