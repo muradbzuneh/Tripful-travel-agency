@@ -1,25 +1,29 @@
 import { useState, useEffect } from 'react';
+import { useTheme } from '../context/ThemeContext';
+import { getTranslation } from '../utils/translations';
 import '../styles/preloader.css';
 
 export default function Preloader() {
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const { language } = useTheme();
 
-  // Array of 3 images to display quickly
+
   const preloaderImages = [
-    '/src/assets/images/ariplane.jpg',
-    '/src/assets/images/ethiopia.jpg',
-    '/src/assets/images/mountain-home.jpg'
+    '/src/assets/images/fasil.jpg',
+    '/src/assets/images/oumer.jpg',
+    '/src/assets/images/zurich.jpg',
+    '/src/assets/images/lion.jpg',
+    '/src/assets/images/harar.jpg',
   ];
 
   useEffect(() => {
-    // Cycle through images quickly
+   
     const imageInterval = setInterval(() => {
       setCurrentImageIndex(prev => (prev + 1) % preloaderImages.length);
-    }, 800); // Change image every 800ms
-
-    // Simulate loading progress
+    }, 500); 
+ 
     const progressInterval = setInterval(() => {
       setProgress(prev => {
         if (prev >= 100) {
@@ -55,7 +59,7 @@ export default function Preloader() {
           <div className="cloud cloud-3">☁️</div>
         </div>
 
-        {/* Logo and branding with rotating images */}
+      
         <div className="preloader-brand">
           <div className="rotating-images">
             <img 
@@ -65,14 +69,9 @@ export default function Preloader() {
             />
           </div>
           <h1 className="brand-name">Tripful</h1>
-          <p className="brand-tagline">Your Journey Begins Here</p>
+          <p className="brand-tagline">{getTranslation('journeyBegins', language)}</p>
 
-           <h5 className="brand-name">Build by Group 1 students</h5>
-           <li>Murad</li>
-           <li>Mena</li>
-           <li>Mahlet</li>
-           <li>Kidan</li>
-           <li>Hubeyb</li>
+           <h5 className="brand-name">{getTranslation('builtBy', language)}</h5>
         </div>
 
         {/* Progress bar */}
@@ -89,10 +88,10 @@ export default function Preloader() {
         {/* Loading messages */}
         <div className="loading-messages">
           <div className="loading-message">
-            {progress < 30 && "🌍 Exploring destinations..."}
-            {progress >= 30 && progress < 60 && "✈️ Preparing your journey..."}
-            {progress >= 60 && progress < 90 && "🏨 Finding best deals..."}
-            {progress >= 90 && "🎉 Almost ready!"}
+            {progress < 30 && getTranslation('exploring', language)}
+            {progress >= 30 && progress < 60 && getTranslation('preparing', language)}
+            {progress >= 60 && progress < 90 && getTranslation('findingDeals', language)}
+            {progress >= 90 && getTranslation('almostReady', language)}
           </div>
         </div>
 

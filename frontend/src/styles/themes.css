@@ -1,0 +1,256 @@
+/* Global Theme Variables */
+:root {
+  /* Light Theme Colors */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-tertiary: #f1f5f9;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
+  --border-color: #e2e8f0;
+  --shadow-light: rgba(0, 0, 0, 0.05);
+  --shadow-medium: rgba(0, 0, 0, 0.1);
+  --shadow-heavy: rgba(0, 0, 0, 0.15);
+  --accent-primary: #3b82f6;
+  --accent-secondary: #1e40af;
+  --accent-warning: #f59e0b;
+  --accent-success: #10b981;
+  --accent-error: #ef4444;
+  --overlay-bg: rgba(0, 0, 0, 0.5);
+}
+
+/* Dark Theme Colors */
+[data-theme="dark"] {
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #334155;
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --border-color: #374151;
+  --shadow-light: rgba(0, 0, 0, 0.2);
+  --shadow-medium: rgba(0, 0, 0, 0.3);
+  --shadow-heavy: rgba(0, 0, 0, 0.4);
+  --accent-primary: #60a5fa;
+  --accent-secondary: #3b82f6;
+  --accent-warning: #fbbf24;
+  --accent-success: #34d399;
+  --accent-error: #f87171;
+  --overlay-bg: rgba(0, 0, 0, 0.7);
+}
+
+/* Global Theme Application */
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Update existing components to use theme variables */
+.home {
+  background-color: var(--bg-primary);
+}
+
+.features {
+  background-color: var(--bg-secondary);
+}
+
+.feature {
+  background-color: var(--bg-primary);
+  border-color: var(--border-color);
+  box-shadow: 0 4px 6px var(--shadow-light);
+}
+
+.feature:hover {
+  box-shadow: 0 20px 40px var(--shadow-medium);
+  border-color: var(--accent-primary);
+}
+
+.feature h3 {
+  color: var(--text-primary);
+}
+
+.feature p {
+  color: var(--text-secondary);
+}
+
+.featured-packages {
+  background-color: var(--bg-primary);
+}
+
+.featured-packages h2,
+.features h2,
+.how-it-works h2 {
+  color: var(--text-primary);
+}
+
+.how-it-works {
+  background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+}
+
+.step {
+  background-color: var(--bg-primary);
+  border-color: var(--border-color);
+  box-shadow: 0 4px 6px var(--shadow-light);
+}
+
+.step:hover {
+  box-shadow: 0 20px 40px var(--shadow-medium);
+  border-color: var(--accent-primary);
+}
+
+.step h3 {
+  color: var(--text-primary);
+}
+
+.step p {
+  color: var(--text-secondary);
+}
+
+.loading {
+  color: var(--text-secondary);
+}
+
+/* Dark theme for preloader */
+[data-theme="dark"] .preloader-overlay {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.8)),
+              url('../assets/images/preloder.jpg');
+}
+
+[data-theme="dark"] .preloader-container {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .brand-name {
+  background: linear-gradient(45deg, #60a5fa, #34d399);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Dark theme for hero section */
+[data-theme="dark"] .hero {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.8)),
+              url('../assets/images/Header-logo.jpg');
+}
+
+/* Navbar dark theme */
+[data-theme="dark"] .navbar {
+  background-color: var(--bg-secondary);
+  border-bottom-color: var(--border-color);
+}
+
+[data-theme="dark"] .nav-links a {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .nav-links a:hover {
+  color: var(--accent-primary);
+}
+
+/* Booking cards dark theme */
+[data-theme="dark"] .booking-card {
+  background-color: var(--bg-secondary);
+  border-color: var(--border-color);
+  box-shadow: 0 4px 6px var(--shadow-light);
+}
+
+[data-theme="dark"] .booking-card:hover {
+  box-shadow: 0 8px 25px var(--shadow-medium);
+}
+
+[data-theme="dark"] .bookings-page {
+  background-color: var(--bg-primary);
+}
+
+[data-theme="dark"] .page-header h1 {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .page-header p {
+  color: var(--text-secondary);
+}
+
+/* Package cards dark theme */
+[data-theme="dark"] .package-card {
+  background-color: var(--bg-secondary);
+  border-color: var(--border-color);
+  box-shadow: 0 4px 6px var(--shadow-light);
+}
+
+[data-theme="dark"] .package-card:hover {
+  box-shadow: 0 12px 35px var(--shadow-medium);
+}
+
+[data-theme="dark"] .package-card h3 {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .package-card p {
+  color: var(--text-secondary);
+}
+
+/* Modal dark theme */
+[data-theme="dark"] .modal {
+  background-color: var(--bg-secondary);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .modal-overlay {
+  background-color: var(--overlay-bg);
+}
+
+/* Form elements dark theme */
+[data-theme="dark"] input,
+[data-theme="dark"] textarea,
+[data-theme="dark"] select {
+  background-color: var(--bg-tertiary);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] input:focus,
+[data-theme="dark"] textarea:focus,
+[data-theme="dark"] select:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Button themes */
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  color: #ffffff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+}
+
+.btn-secondary {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 2px solid var(--border-color);
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  border-color: var(--accent-primary);
+  background: var(--accent-primary);
+  color: #ffffff;
+}
+
+/* Smooth transitions for theme switching */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}

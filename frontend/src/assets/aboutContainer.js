@@ -53,6 +53,4 @@ export const container =[
   title: "Easy Trip Management",
   paragrap: "Manage your bookings, payments, and travel details easily through your personal dashboard."
 }
-
-
 ]

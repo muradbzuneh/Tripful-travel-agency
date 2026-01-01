@@ -1,8 +1,8 @@
-/* Travel Agency Packages Page - Ocean & Adventure Theme */
+
 .packages-page {
   padding: clamp(30px, 5vh, 60px) 0;
   min-height: 100vh;
-  background: var(--ocean-gradient);
+  background: white;
   position: relative;
   overflow: hidden;
 }
@@ -20,16 +20,6 @@
   z-index: 1;
 }
 
-.packages-page::after {
-  content: '🏖️✈️🏔️🗺️';
-  position: absolute;
-  top: 15%;
-  right: 3%;
-  font-size: clamp(40px, 6vw, 80px);
-  opacity: 0.08;
-  animation: float 10s ease-in-out infinite;
-  z-index: 1;
-}
 
 .page-header {
   text-align: center;
@@ -46,9 +36,6 @@
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   font-weight: 700;
   font-family: 'Playfair Display', serif;
-  background: linear-gradient(45deg, var(--cloud-white), var(--sky-blue));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
@@ -105,14 +92,13 @@
   background: linear-gradient(45deg, var(--tropical-teal), var(--adventure-green));
 }
 
-/* Enhanced Filters Section */
 .filters {
   display: flex;
   gap: clamp(15px, 3vw, 25px);
   margin-bottom: clamp(30px, 5vh, 50px);
   align-items: center;
   flex-wrap: wrap;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgb(35, 133, 203);
   padding: clamp(16px, 3vw, 24px);
   border-radius: 20px;
   backdrop-filter: blur(10px);
@@ -131,7 +117,7 @@
   border-radius: 50px;
   font-size: clamp(14px, 2vw, 18px);
   transition: all 0.3s ease;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(49, 120, 202, 0.9);
   color: #333;
   backdrop-filter: blur(10px);
 }
@@ -201,10 +187,9 @@
   accent-color: #28a745;
 }
 
-/* Enhanced Packages Grid */
 .packages-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(clamp(300px, 40vw, 380px), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(clamp(250px, 350vw, 350px), 1fr));
   gap: clamp(20px, 4vw, 40px);
   margin-bottom: clamp(30px, 5vh, 60px);
 }
@@ -225,7 +210,6 @@
   opacity: 0.9;
 }
 
-/* Package Count */
 .package-count {
   text-align: center;
   color: rgba(255, 255, 255, 0.8);

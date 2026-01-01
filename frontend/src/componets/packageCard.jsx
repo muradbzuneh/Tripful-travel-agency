@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import { useTheme } from "../context/ThemeContext";
 import { bookingService } from "../services/bookings";
 import { packageService } from "../services/packages";
 import "../styles/card.css";
@@ -14,6 +15,8 @@ export default function PackageCard({
   const [travelDate, setTravelDate] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [isHovered, setIsHovered] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   const handleBookNow = async (e) => {
     e.preventDefault();
@@ -83,7 +86,11 @@ export default function PackageCard({
   const today = new Date().toISOString().split("T")[0];
 
   return (
-    <div className="card">
+    <div 
+      className={`card ${isHovered ? 'hovered' : ''} ${!pkg.is_active ? 'inactive' : ''}`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       {/* Admin Controls */}
       {isStaffOrAdmin && (
         <div className="admin-controls">
@@ -107,47 +114,117 @@ export default function PackageCard({
         </div>
       )}
 
-      <img
-        src={getPackageImage(pkg)}
-        alt={pkg.title}
-        className="card-image"
-        onError={(e) => {
-          e.target.src = "/src/assets/images/ethiopia.jpg";
-        }}
-      />
+      {/* Image Container with Loading Animation */}
+      <div className="card-image-container">
+        {!imageLoaded && (
+          <div className="image-skeleton">
+            <div className="skeleton-shimmer"></div>
+          </div>
+        )}
+        <img
+          src={getPackageImage(pkg)}
+          alt={pkg.title}
+          className={`card-image ${imageLoaded ? 'loaded' : ''}`}
+          onLoad={() => setImageLoaded(true)}
+          onError={(e) => {
+            e.target.src = "/src/assets/images/ethiopia.jpg";
+            setImageLoaded(true);
+          }}
+        />
+        
+        {/* Overlay with Quick Actions */}
+        <div className="card-overlay">
+          <div className="quick-actions">
+            <button className="quick-action-btn favorite-btn" title="Add to Favorites">
+              ❤️
+            </button>
+            <button className="quick-action-btn share-btn" title="Share Package">
+              📤
+            </button>
+            <button className="quick-action-btn info-btn" title="More Info">
+              ℹ️
+            </button>
+          </div>
+          
+          {/* Price Badge */}
+          <div className="price-badge">
+            <span className="price-amount">${pkg.price}</span>
+            <span className="price-label">per person</span>
+          </div>
+        </div>
+      </div>
+
       <div className="card-content">
-        <h3>{pkg.title}</h3>
-        <p className="destination">📍 {pkg.destination}</p>
+        <div className="card-header">
+          <h3 className="package-title">{pkg.title}</h3>
+          <div className="package-status">
+            {pkg.available_slots === 0 ? (
+              <span className="status-badge sold-out">Sold Out</span>
+            ) : pkg.available_slots <= 5 ? (
+              <span className="status-badge limited">Limited</span>
+            ) : (
+              <span className="status-badge available">Available</span>
+            )}
+          </div>
+        </div>
+
+        <div className="package-details">
+          <div className="detail-item">
+            <span className="detail-icon">📍</span>
+            <span className="detail-text">{pkg.destination}</span>
+          </div>
+          
+          <div className="detail-item">
+            <span className="detail-icon">⏱️</span>
+            <span className="detail-text">{pkg.duration_days} days</span>
+          </div>
+          
+          <div className="detail-item">
+            <span className="detail-icon">🏨</span>
+            <span className="detail-text">{pkg.hotel_name}</span>
+            {pkg.hotel_rating && (
+              <div className="rating-stars">
+                {[...Array(5)].map((_, i) => (
+                  <span 
+                    key={i} 
+                    className={`star ${i < pkg.hotel_rating ? 'filled' : ''}`}
+                  >
+                    ⭐
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+          
+          <div className="detail-item">
+            <span className="detail-icon">✈️</span>
+            <span className="detail-text">{pkg.flight_summary}</span>
+          </div>
+        </div>
+
         {pkg.location && (
-          <a href={pkg.location} className="location">
-            <img src="/src/assets/images/google-map.jpg" alt="" />
+          <a href={pkg.location} className="location-link" target="_blank" rel="noopener noreferrer">
+            <img src="/src/assets/images/google-map.jpg" alt="View on Map" />
+            <span>View on Map</span>
           </a>
         )}
-        <p className="duration">⏱️ {pkg.duration_days} days</p>
-        <div className="hotel-info">
-          <span className="hotel-name">🏨 {pkg.hotel_name}</span>
-          {pkg.hotel_rating && (
-            <img
-              src={getRatingImage(pkg.hotel_rating)}
-              alt={`${pkg.hotel_rating} stars`}
-              className="rating-image"
-              onError={(e) => {
-                e.target.style.display = "none";
-                e.target.nextSibling.style.display = "inline";
-              }}
-            />
-          )}
-          <span className="rating-fallback" style={{ display: "none" }}>
-            ({pkg.hotel_rating}⭐)
-          </span>
-        </div>
-        <p className="flight">✈️ {pkg.flight_summary}</p>
+
         {pkg.description && (
-          <p className="description">{pkg.description.substring(0, 100)}...</p>
+          <p className="description">{pkg.description.substring(0, 120)}...</p>
         )}
-        <div className="price-section">
-          <strong className="price">${pkg.price}</strong>
-          <span className="slots">({pkg.available_slots} slots available)</span>
+
+        <div className="availability-info">
+          <div className="slots-info">
+            <span className="slots-icon">👥</span>
+            <span className="slots-text">{pkg.available_slots} slots available</span>
+          </div>
+          
+          {pkg.available_slots <= 5 && pkg.available_slots > 0 && (
+            <div className="urgency-indicator">
+              <span className="urgency-icon">⚡</span>
+              <span className="urgency-text">Hurry! Only {pkg.available_slots} left</span>
+            </div>
+          )}
         </div>
 
         {isAuthenticated && !isStaffOrAdmin ? (
@@ -155,47 +232,88 @@ export default function PackageCard({
             {!showBookingForm ? (
               <button
                 onClick={() => setShowBookingForm(true)}
-                className="book-btn"
+                className={`book-btn ${pkg.available_slots === 0 || !pkg.is_active ? 'disabled' : 'primary'}`}
                 disabled={pkg.available_slots === 0 || !pkg.is_active}
               >
-                {!pkg.is_active
-                  ? "Inactive"
-                  : pkg.available_slots === 0
-                  ? "Sold Out"
-                  : "Book Now"}
+                <span className="btn-icon">
+                  {!pkg.is_active ? "🚫" : pkg.available_slots === 0 ? "❌" : "🎫"}
+                </span>
+                <span className="btn-text">
+                  {!pkg.is_active
+                    ? "Inactive"
+                    : pkg.available_slots === 0
+                    ? "Sold Out"
+                    : "Book Now"}
+                </span>
               </button>
             ) : (
-              <form onSubmit={handleBookNow} className="booking-form">
-                <input
-                  type="date"
-                  value={travelDate}
-                  onChange={(e) => setTravelDate(e.target.value)}
-                  min={today}
-                  required
-                />
-                <div className="form-buttons">
-                  <button type="submit" disabled={loading}>
-                    {loading ? "Booking..." : "Confirm Booking"}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setShowBookingForm(false)}
-                    className="cancel-btn"
-                  >
-                    Cancel
-                  </button>
-                </div>
-                {error && <p className="error">{error}</p>}
-              </form>
+              <div className="booking-form-container">
+                <form onSubmit={handleBookNow} className="booking-form">
+                  <div className="form-group">
+                    <label htmlFor="travel-date">Select Travel Date:</label>
+                    <input
+                      id="travel-date"
+                      type="date"
+                      value={travelDate}
+                      onChange={(e) => setTravelDate(e.target.value)}
+                      min={today}
+                      required
+                      className="date-input"
+                    />
+                  </div>
+                  
+                  <div className="form-buttons">
+                    <button 
+                      type="submit" 
+                      disabled={loading}
+                      className="confirm-btn"
+                    >
+                      {loading ? (
+                        <>
+                          <span className="loading-spinner"></span>
+                          <span>Booking...</span>
+                        </>
+                      ) : (
+                        <>
+                          <span>✅</span>
+                          <span>Confirm Booking</span>
+                        </>
+                      )}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowBookingForm(false);
+                        setError("");
+                      }}
+                      className="cancel-btn"
+                    >
+                      <span>❌</span>
+                      <span>Cancel</span>
+                    </button>
+                  </div>
+                  
+                  {error && (
+                    <div className="error-message">
+                      <span className="error-icon">⚠️</span>
+                      <span>{error}</span>
+                    </div>
+                  )}
+                </form>
+              </div>
             )}
           </div>
         ) : !isAuthenticated ? (
-          <p className="login-prompt">
-            <a href="/login">Login</a> to book this package
-          </p>
+          <div className="login-prompt">
+            <span className="prompt-icon">🔐</span>
+            <span>
+              <a href="/login" className="login-link">Login</a> to book this package
+            </span>
+          </div>
         ) : (
           <div className="staff-info">
-            <p className="staff-note">📋 Management View</p>
+            <span className="staff-icon">📋</span>
+            <span className="staff-text">Management View</span>
           </div>
         )}
       </div>

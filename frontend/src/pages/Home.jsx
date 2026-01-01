@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from "react-router-dom";
 import { Link } from 'react-router-dom';
+import { useTheme } from '../context/ThemeContext';
+import { getTranslation } from '../utils/translations';
 import { container } from '../assets/aboutContainer.js';
 import { packageService } from '../services/packages';
 import PackageCard from '../componets/packageCard';
@@ -11,7 +13,8 @@ import '../styles/navbar.css'
 export default function Home() {
   const [featuredPackages, setFeaturedPackages] = useState([]);
   const [loading, setLoading] = useState(true);
-    const location = useLocation();
+  const { language } = useTheme();
+  const location = useLocation();
 
      useEffect(() => {
     if (location.state?.scrollTo === "about") {
@@ -54,11 +57,11 @@ export default function Home() {
       {/* Hero Section */}
       <section className="hero animate-fadeIn">
         <div className="hero-content">
-          <h1 className="animate-slideInLeft">Welcome to Tripful</h1>
-          <p className="animate-slideInLeft animate-stagger-1">Discover amazing holiday packages with flights and hotels included</p>
-          <p className="hero-subtitle animate-slideInLeft animate-stagger-2">Book Now, Pay Later - Make your dream vacation a reality!</p>
+          <h1 className="animate-slideInLeft">{getTranslation('welcomeTitle', language)}</h1>
+          <p className="animate-slideInLeft animate-stagger-1">{getTranslation('welcomeSubtitle', language)}</p>
+          <p className="hero-subtitle animate-slideInLeft animate-stagger-2">{getTranslation('heroSubtitle', language)}</p>
           <Link to="/packages" className="cta-button animate-scaleIn animate-stagger-3 hover-lift transition-smooth">
-            Explore Packages
+            {getTranslation('explorePackages', language)}
           </Link>
         </div>
         <div className="hero-image">
@@ -69,7 +72,7 @@ export default function Home() {
       {/* Features Section */}
       <section className="features animate-fadeIn" id="about">
         <div className="container">
-          <h2 className="animate-slideInLeft">About us</h2>
+          <h2 className="animate-slideInLeft">{getTranslation('whyChoose', language)}</h2>
           <div className="features-grid">
             {container.map((con, key) =>(
                 <div key={key} className="feature animate-scaleIn hover-lift transition-smooth" style={{animationDelay: `${key * 0.1}s`}}>
@@ -86,7 +89,7 @@ export default function Home() {
       {/* Featured Packages */}
       <section className="featured-packages animate-fadeIn" id='Events' >
         <div className="container">
-          <h2 className="animate-slideInRight">Featured Holiday Packages</h2>
+          <h2 className="animate-slideInRight">{getTranslation('featuredPackages', language)}</h2>
           {loading ? (
             <div className="loading animate-pulse">Loading packages...</div>
           ) : (
@@ -112,43 +115,39 @@ export default function Home() {
       {/* How It Works */}
       <section className="how-it-works animate-fadeIn" id="contact">
         <div className="container">
-          <h2 className="animate-slideInLeft">How It Works</h2>
+          <h2 className="animate-slideInLeft">{getTranslation('howItWorks', language)}</h2>
           <div className="steps">
             <div className="step animate-scaleIn hover-lift transition-smooth">
               <div className="step-number animate-bounce">1</div>
-              <h3>Browse Packages</h3>
-              <p>Explore our curated holiday packages</p>
+              <h3>{getTranslation('step1Title', language)}</h3>
+              <p>{getTranslation('step1Desc', language)}</p>
             </div>
             <div className="step animate-scaleIn animate-stagger-1 hover-lift transition-smooth">
               <div className="step-number animate-bounce animate-stagger-1">2</div>
-              <h3>Book Your Trip</h3>
-              <p>Select dates and confirm your booking</p>
+              <h3>{getTranslation('step2Title', language)}</h3>
+              <p>{getTranslation('step2Desc', language)}</p>
             </div>
             <div className="step animate-scaleIn animate-stagger-2 hover-lift transition-smooth">
               <div className="step-number animate-bounce animate-stagger-2">3</div>
-              <h3>Pay When Ready</h3>
-              <p>Make payments at your convenience</p>
+              <h3>{getTranslation('step3Title', language)}</h3>
+              <p>{getTranslation('step3Desc', language)}</p>
             </div>
             <div className="step animate-scaleIn animate-stagger-3 hover-lift transition-smooth">
               <div className="step-number animate-bounce animate-stagger-3">4</div>
-              <h3>Enjoy Your Holiday</h3>
-              <p>Travel with confidence and create memories</p>
+              <h3>{getTranslation('step4Title', language)}</h3>
+              <p>{getTranslation('step4Desc', language)}</p>
             </div>
             <div className="step">
-  <div className="step-number">5</div>
-  <h3>Manage Your Booking</h3>
-  <p>
-    Access your Tripful account to view, update, or track your booking details anytime.
-  </p>
-</div>
+              <div className="step-number">5</div>
+              <h3>{getTranslation('step5Title', language)}</h3>
+              <p>{getTranslation('step5Desc', language)}</p>
+            </div>
 
-<div className="step">
-  <div className="step-number">6</div>
-  <h3>Get Support & Updates</h3>
-  <p>
-    Receive trip notifications and get assistance from our support team whenever you need help.
-  </p>
-</div>
+            <div className="step">
+              <div className="step-number">6</div>
+              <h3>{getTranslation('step6Title', language)}</h3>
+              <p>{getTranslation('step6Desc', language)}</p>
+            </div>
 
           </div>
         </div>

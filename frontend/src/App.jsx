@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
+import { ThemeProvider } from "./context/ThemeContext";
 import Home from "./pages/Home";
 import Packages from "./pages/Package";
 import PackageDetails from "./pages/PackageDetails";
@@ -18,8 +19,10 @@ import ProtectedRoute from "./componets/ProtectedRoute";
 import Preloader from "./componets/Preloader";
 import { useState, useEffect } from "react";
 import "./styles/animations.css";
+import "./styles/themes.css";
 
-function App() {
+// Main App Content Component
+function AppContent() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -81,6 +84,14 @@ function App() {
         </div>
       </BrowserRouter>
     </AuthProvider>
+  );
+}
+
+function App() {
+  return (
+    <ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
   );
 }
 

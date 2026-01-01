@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useTheme } from '../context/ThemeContext';
+import { getTranslation } from '../utils/translations';
 import { bookingService } from '../services/bookings';
 import { paymentService } from '../services/payments';
 import '../styles/bookings.css';
@@ -13,6 +15,7 @@ export default function MyBookings() {
   const [paymentReference, setPaymentReference] = useState('');
   const [paymentLoading, setPaymentLoading] = useState(false);
   const [cancelLoading, setCancelLoading] = useState(null);
+  const { language } = useTheme();
 
   useEffect(() => {
     fetchBookings();
@@ -75,17 +78,6 @@ export default function MyBookings() {
     }
   };
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'CONFIRMED': return 'green';
-      case 'PENDING': return 'orange';
-      case 'CANCELLED': return 'red';
-      case 'SUCCESS': return 'green';
-      case 'UNPAID': return 'red';
-      default: return 'gray';
-    }
-  };
-
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString();
   };
@@ -102,90 +94,131 @@ export default function MyBookings() {
     <div className="bookings-page">
       <div className="container">
         <div className="page-header">
-          <h1>My Bookings</h1>
-          <p>Manage your travel bookings and payments</p>
+          <h1>{getTranslation('myBookings', language)}</h1>
+          <p>{getTranslation('bookingManagement', language)}</p>
         </div>
 
         {bookings.length === 0 ? (
           <div className="no-bookings">
-            <h3>No bookings yet</h3>
-            <p>Start planning your next adventure!</p>
+            <div className="no-bookings-icon">📅</div>
+            <h3>{getTranslation('noBookings', language)}</h3>
+            <p>{getTranslation('startPlanning', language)}</p>
             <Link to="/packages" className="cta-button">
-              Browse Packages
+              {getTranslation('browsePackages', language)}
             </Link>
           </div>
         ) : (
-          <div className="bookings-list">
-            {bookings.map(booking => {
+          <div className="bookings-grid">
+            {bookings.map((booking, index) => {
               const remainingAmount = booking.total_price - booking.paid_amount;
               const isFullyPaid = remainingAmount <= 0;
 
               return (
-                <div key={booking.id} className="booking-card">
+                <div key={booking.id} className="booking-card animate-fadeIn" style={{animationDelay: `${index * 0.1}s`}}>
                   <div className="booking-header">
-                    {/* <h3>Booking #{booking.id.slice(0, 8)}</h3> */}
+                    <div className="booking-id">
+                      <span className="booking-icon">🎫</span>
+                      <span className="booking-number">#{String(booking.id).slice(0, 8)}</span>
+                    </div>
                     <div className="booking-statuses">
                       <span 
-                        className="status"
-                        style={{ color: getStatusColor(booking.booking_status) }}
+                        className={`status-badge ${booking.booking_status.toLowerCase()}`}
                       >
+                        <span className="status-icon">
+                          {booking.booking_status === 'CONFIRMED' ? '✅' : 
+                           booking.booking_status === 'PENDING' ? '⏳' : 
+                           booking.booking_status === 'CANCELLED' ? '❌' : '📋'}
+                        </span>
                         {booking.booking_status}
                       </span>
                       <span 
-                        className="status"
-                        style={{ color: getStatusColor(booking.payment_status) }}
+                        className={`status-badge ${booking.payment_status.toLowerCase()}`}
                       >
+                        <span className="status-icon">
+                          {booking.payment_status === 'SUCCESS' ? '💳' : 
+                           booking.payment_status === 'UNPAID' ? '💰' : '💸'}
+                        </span>
                         {booking.payment_status}
                       </span>
                     </div>
                   </div>
 
                   <div className="booking-details">
-                    <div className="detail-row">
-                      <span>Package ID:</span>
-                      <span>{booking.package_id}</span>
+                    <div className="detail-grid">
+                      <div className="detail-item">
+                        <span className="detail-label">Package ID:</span>
+                        <span className="detail-value">{booking.package_id}</span>
+                      </div>
+                      <div className="detail-item">
+                        <span className="detail-label">{getTranslation('travelDate', language)}:</span>
+                        <span className="detail-value">{formatDate(booking.travel_date)}</span>
+                      </div>
+                      <div className="detail-item">
+                        <span className="detail-label">{getTranslation('totalPrice', language)}:</span>
+                        <span className="detail-value price">${booking.total_price}</span>
+                      </div>
+                      <div className="detail-item">
+                        <span className="detail-label">{getTranslation('paidAmount', language)}:</span>
+                        <span className="detail-value paid">${booking.paid_amount}</span>
+                      </div>
+                      <div className="detail-item">
+                        <span className="detail-label">{getTranslation('remaining', language)}:</span>
+                        <span className={`detail-value ${isFullyPaid ? 'paid-full' : 'unpaid'}`}>
+                          ${remainingAmount.toFixed(2)}
+                        </span>
+                      </div>
+                      <div className="detail-item">
+                        <span className="detail-label">{getTranslation('bookedOn', language)}:</span>
+                        <span className="detail-value">{formatDate(booking.booked_at)}</span>
+                      </div>
                     </div>
-                    <div className="detail-row">
-                      <span>Travel Date:</span>
-                      <span>{formatDate(booking.travel_date)}</span>
-                    </div>
-                    <div className="detail-row">
-                      <span>Total Price:</span>
-                      <span>${booking.total_price}</span>
-                    </div>
-                    <div className="detail-row">
-                      <span>Paid Amount:</span>
-                      <span>${booking.paid_amount}</span>
-                    </div>
-                    <div className="detail-row">
-                      <span>Remaining:</span>
-                      <span className={isFullyPaid ? 'paid' : 'unpaid'}>
-                        ${remainingAmount.toFixed(2)}
-                      </span>
-                    </div>
-                    <div className="detail-row">
-                      <span>Booked On:</span>
-                      <span>{formatDate(booking.booked_at)}</span>
+
+                    {/* Progress Bar for Payment */}
+                    <div className="payment-progress">
+                      <div className="progress-header">
+                        <span className="progress-label">Payment Progress</span>
+                        <span className="progress-percentage">
+                          {Math.round((booking.paid_amount / booking.total_price) * 100)}%
+                        </span>
+                      </div>
+                      <div className="progress-bar">
+                        <div 
+                          className="progress-fill"
+                          style={{ width: `${(booking.paid_amount / booking.total_price) * 100}%` }}
+                        ></div>
+                      </div>
                     </div>
                   </div>
 
                   <div className="booking-actions">
-                    {!isFullyPaid && (
+                    {!isFullyPaid && booking.booking_status !== 'CANCELLED' && (
                       <button 
                         onClick={() => setPaymentModal(booking)}
-                        className="pay-button"
+                        className="action-btn primary"
                       >
-                        Make Payment
+                        <span className="btn-icon">💳</span>
+                        <span>{getTranslation('makePayment', language)}</span>
                       </button>
                     )}
                     {booking.booking_status !== 'CANCELLED' && (
                       <button 
                         onClick={() => handleCancelBooking(booking.id)}
                         disabled={cancelLoading === booking.id}
-                        className="cancel-button"
+                        className="action-btn danger"
                       >
-                        {cancelLoading === booking.id ? 'Cancelling...' : 'Cancel Booking'}
+                        <span className="btn-icon">
+                          {cancelLoading === booking.id ? '⏳' : '🗑️'}
+                        </span>
+                        <span>
+                          {cancelLoading === booking.id ? 'Cancelling...' : getTranslation('cancelBooking', language)}
+                        </span>
                       </button>
+                    )}
+                    {isFullyPaid && (
+                      <div className="paid-indicator">
+                        <span className="paid-icon">✅</span>
+                        <span className="paid-text">Fully Paid</span>
+                      </div>
                     )}
                   </div>
                 </div>
@@ -194,42 +227,61 @@ export default function MyBookings() {
           </div>
         )}
 
-        {/* Payment Modal */}
+        {/* Enhanced Payment Modal */}
         {paymentModal && (
           <div className="modal-overlay">
-            <div className="modal">
+            <div className="modal animate-scaleIn">
               <div className="modal-header">
-                <h3>Make Payment</h3>
+                <h3>
+                  <span className="modal-icon">💳</span>
+                  {getTranslation('makePayment', language)}
+                </h3>
                 <button 
                   onClick={() => setPaymentModal(null)}
                   className="close-button"
                 >
-                  ×
+                  ✕
                 </button>
               </div>
 
               <div className="modal-content">
-                <div className="payment-info">
-                  <p><strong>Booking:</strong> #{String(paymentModal.id).slice(0, 8)}</p>
-                  <p><strong>Total Amount:</strong> ${paymentModal.total_price}</p>
-                  <p><strong>Already Paid:</strong> ${paymentModal.paid_amount}</p>
-                  <p><strong>Remaining:</strong> ${(paymentModal.total_price - paymentModal.paid_amount).toFixed(2)}</p>
+                <div className="payment-summary">
+                  <div className="summary-item">
+                    <span className="summary-label">Booking:</span>
+                    <span className="summary-value">#{String(paymentModal.id).slice(0, 8)}</span>
+                  </div>
+                  <div className="summary-item">
+                    <span className="summary-label">{getTranslation('totalPrice', language)}:</span>
+                    <span className="summary-value">${paymentModal.total_price}</span>
+                  </div>
+                  <div className="summary-item">
+                    <span className="summary-label">Already Paid:</span>
+                    <span className="summary-value">${paymentModal.paid_amount}</span>
+                  </div>
+                  <div className="summary-item highlight">
+                    <span className="summary-label">{getTranslation('remaining', language)}:</span>
+                    <span className="summary-value">${(paymentModal.total_price - paymentModal.paid_amount).toFixed(2)}</span>
+                  </div>
                 </div>
 
-                <form onSubmit={handlePayment}>
+                <form onSubmit={handlePayment} className="payment-form">
                   <div className="form-group">
                     <label htmlFor="amount">Payment Amount</label>
-                    <input
-                      type="number"
-                      id="amount"
-                      value={paymentAmount}
-                      onChange={(e) => setPaymentAmount(e.target.value)}
-                      min="0.01"
-                      max={paymentModal.total_price - paymentModal.paid_amount}
-                      step="0.01"
-                      required
-                      placeholder="Enter amount to pay"
-                    />
+                    <div className="input-wrapper">
+                      <span className="input-prefix">$</span>
+                      <input
+                        type="number"
+                        id="amount"
+                        value={paymentAmount}
+                        onChange={(e) => setPaymentAmount(e.target.value)}
+                        min="0.01"
+                        max={paymentModal.total_price - paymentModal.paid_amount}
+                        step="0.01"
+                        required
+                        placeholder="0.00"
+                        className="amount-input"
+                      />
+                    </div>
                   </div>
 
                   <div className="form-group">
@@ -241,6 +293,7 @@ export default function MyBookings() {
                       onChange={(e) => setPaymentReference(e.target.value)}
                       required
                       placeholder="e.g., Credit Card, Bank Transfer, etc."
+                      className="reference-input"
                     />
                   </div>
 
@@ -248,16 +301,27 @@ export default function MyBookings() {
                     <button 
                       type="submit" 
                       disabled={paymentLoading}
-                      className="pay-button"
+                      className="action-btn primary large"
                     >
-                      {paymentLoading ? 'Processing...' : 'Process Payment'}
+                      {paymentLoading ? (
+                        <>
+                          <span className="loading-spinner"></span>
+                          <span>Processing...</span>
+                        </>
+                      ) : (
+                        <>
+                          <span className="btn-icon">💳</span>
+                          <span>Process Payment</span>
+                        </>
+                      )}
                     </button>
                     <button 
                       type="button"
                       onClick={() => setPaymentModal(null)}
-                      className="cancel-button"
+                      className="action-btn secondary large"
                     >
-                      Cancel
+                      <span className="btn-icon">❌</span>
+                      <span>Cancel</span>
                     </button>
                   </div>
                 </form>

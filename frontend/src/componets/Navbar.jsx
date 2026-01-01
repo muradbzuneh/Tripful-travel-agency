@@ -1,10 +1,14 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useTheme } from "../context/ThemeContext";
+import { getTranslation } from "../utils/translations";
 import { useState } from "react";
+import ThemeLanguageSelector from "./ThemeLanguageSelector";
 import "../styles/navbar.css";
 
 export default function Navbar() {
   const { user, logout, isAuthenticated, isStaffOrAdmin, isAdmin } = useAuth();
+  const { language } = useTheme();
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -63,52 +67,49 @@ export default function Navbar() {
           <span></span>
         </button>
 
-        {/* Navigation Links */}
         <div className={`nav-links ${isMobileMenuOpen ? "mobile-open" : ""}`}>
           <div className="nav-links-container">
             <Link to="/" onClick={closeMobileMenu}>
-              Home
-            </Link>
-            <Link to="#" onClick={handleNavScroll("about")}>
-              About us
+              {getTranslation('home', language)}
             </Link>
             <Link to="/packages" onClick={closeMobileMenu}>
-              Packages
+              {getTranslation('packages', language)}
             </Link>
 
             {!isStaffOrAdmin ? (
               <>
                 <Link to="/services" onClick={closeMobileMenu}>
-                  Services
+                  {getTranslation('services', language)}
                 </Link>
                 <Link to="#" onClick={handleNavScroll("Events")}>
-                  Events
+                  {getTranslation('events', language)}
                 </Link>
                 <Link to="/attractions" onClick={closeMobileMenu}>
-                  Attractions
+                  {getTranslation('attractions', language)}
                 </Link>
                 <Link to="/destinations" onClick={closeMobileMenu}>
-                  Destinations
+                  {getTranslation('destinations', language)}
                 </Link>
-                <Link to="#" onClick={handleNavScroll("contact")}>
-                  Contact
-                </Link>
+             
               </>
             ) : null}
+
+            {/* Theme and Language Selector */}
+            <ThemeLanguageSelector />
 
             {isAuthenticated ? (
               <>
                 <Link to="/my-bookings" onClick={closeMobileMenu}>
-                  My Bookings
+                  {getTranslation('myBookings', language)}
                 </Link>
                 {isStaffOrAdmin && (
                   <Link to="/staff" onClick={closeMobileMenu}>
-                    Staff Dashboard
+                    {getTranslation('staffDashboard', language)}
                   </Link>
                 )}
                 {isAdmin && (
                   <Link to="/admin" onClick={closeMobileMenu}>
-                    Admin Panel
+                    {getTranslation('adminPanel', language)}
                   </Link>
                 )}
                 <div className="user-menu">
@@ -124,21 +125,21 @@ export default function Navbar() {
                     })()}
                   </span>
                   <button onClick={handleLogout} className="logout-btn">
-                    Logout
+                    {getTranslation('logout', language)}
                   </button>
                 </div>
               </>
             ) : (
               <div className="auth-links">
                 <Link to="/login" onClick={closeMobileMenu}>
-                  Login
+                  {getTranslation('login', language)}
                 </Link>
                 <Link
                   to="/register"
                   onClick={closeMobileMenu}
                   className="register-btn"
                 >
-                  Register
+                  {getTranslation('register', language)}
                 </Link>
               </div>
             )}

@@ -23,7 +23,7 @@
 
 .package-details {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 40px;
   background: white;
   border-radius: 12px;
@@ -90,11 +90,7 @@
   background-color: #f8f9fa;
   border-radius: 8px;
 }
-/* 
-.meta-item .icon {
-  font-size: 20px;
-  min-width: 24px;
-} */
+
 .meta-item-img{
   width: 30px;
   border-radius: 5px;
