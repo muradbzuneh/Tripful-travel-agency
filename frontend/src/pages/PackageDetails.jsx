@@ -159,7 +159,12 @@ export default function PackageDetails() {
                 <span className="icon">📅</span>
                 <div>
                   <strong>Available Period:</strong>
-                  <p>{new Date(pkg.start_date).toLocaleDateString()} - {new Date(pkg.end_date).toLocaleDateString()}</p>
+                  <p>{new Date(pkg.start_date).toLocaleDateString()} - {(() => {
+                    const startDate = new Date(pkg.start_date);
+                    const endDate = new Date(startDate);
+                    endDate.setDate(startDate.getDate() + pkg.duration_days - 1);
+                    return endDate.toLocaleDateString();
+                  })()}</p>
                 </div>
               </div>
 
@@ -192,7 +197,12 @@ export default function PackageDetails() {
                         value={travelDate}
                         onChange={(e) => setTravelDate(e.target.value)}
                         min={today}
-                        max={pkg.end_date}
+                        max={(() => {
+                          const startDate = new Date(pkg.start_date);
+                          const endDate = new Date(startDate);
+                          endDate.setDate(startDate.getDate() + pkg.duration_days - 1);
+                          return endDate.toISOString().split('T')[0];
+                        })()}
                         required
                       />
                     </div>

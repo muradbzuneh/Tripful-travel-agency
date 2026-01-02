@@ -70,76 +70,78 @@ export default function Navbar() {
         <div className={`nav-links ${isMobileMenuOpen ? "mobile-open" : ""}`}>
           <div className="nav-links-container">
             <Link to="/" onClick={closeMobileMenu}>
-              {getTranslation('home', language)}
+              {getTranslation("home", language)}
             </Link>
             <Link to="/packages" onClick={closeMobileMenu}>
-              {getTranslation('packages', language)}
+              {getTranslation("packages", language)}
             </Link>
 
             {!isStaffOrAdmin ? (
               <>
                 <Link to="/services" onClick={closeMobileMenu}>
-                  {getTranslation('services', language)}
+                  {getTranslation("services", language)}
                 </Link>
                 <Link to="#" onClick={handleNavScroll("Events")}>
-                  {getTranslation('events', language)}
+                  {getTranslation("events", language)}
                 </Link>
                 <Link to="/attractions" onClick={closeMobileMenu}>
-                  {getTranslation('attractions', language)}
+                  {getTranslation("attractions", language)}
                 </Link>
                 <Link to="/destinations" onClick={closeMobileMenu}>
-                  {getTranslation('destinations', language)}
+                  {getTranslation("destinations", language)}
                 </Link>
-             
+                {isAuthenticated && getTranslation && language && (
+                  <Link to="/my-bookings" onClick={closeMobileMenu}>
+                    {getTranslation("myBookings", language)}
+                  </Link>
+                )}
               </>
             ) : null}
 
-            {/* Theme and Language Selector */}
             <ThemeLanguageSelector />
 
             {isAuthenticated ? (
               <>
-                <Link to="/my-bookings" onClick={closeMobileMenu}>
-                  {getTranslation('myBookings', language)}
-                </Link>
                 {isStaffOrAdmin && (
                   <Link to="/staff" onClick={closeMobileMenu}>
-                    {getTranslation('staffDashboard', language)}
+                    {getTranslation("staffDashboard", language)}
                   </Link>
                 )}
                 {isAdmin && (
                   <Link to="/admin" onClick={closeMobileMenu}>
-                    {getTranslation('adminPanel', language)}
+                    {getTranslation("adminPanel", language)}
                   </Link>
                 )}
                 <div className="user-menu">
                   <span className="user-name">
                     {(() => {
                       if (user?.full_name) {
-                        const names = user.full_name.split(' ');
-                        const firstInitial = names[0]?.charAt(0).toUpperCase() || '';
-                        const fatherInitial = names[1]?.charAt(0).toUpperCase() || '';
+                        const names = user.full_name.split(" ");
+                        const firstInitial =
+                          names[0]?.charAt(0).toUpperCase() || "";
+                        const fatherInitial =
+                          names[1]?.charAt(0).toUpperCase() || "";
                         return `👤 ${firstInitial}${fatherInitial}`;
                       }
-                      return '👤 User';
+                      return "👤 User";
                     })()}
                   </span>
                   <button onClick={handleLogout} className="logout-btn">
-                    {getTranslation('logout', language)}
+                    {getTranslation("logout", language)}
                   </button>
                 </div>
               </>
             ) : (
               <div className="auth-links">
                 <Link to="/login" onClick={closeMobileMenu}>
-                  {getTranslation('login', language)}
+                  {getTranslation("login", language)}
                 </Link>
                 <Link
                   to="/register"
                   onClick={closeMobileMenu}
                   className="register-btn"
                 >
-                  {getTranslation('register', language)}
+                  {getTranslation("register", language)}
                 </Link>
               </div>
             )}

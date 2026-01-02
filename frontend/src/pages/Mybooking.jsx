@@ -182,7 +182,7 @@ export default function MyBookings() {
                           onClick={() => handlePaymentClick(booking)}
                           className="action-btn primary"
                         >
-                          <span className="btn-icon">💳</span>
+                          <span className="btn-icon"></span>
                           <span>{getTranslation('makePayment', language)}</span>
                         </button>
                         <button 
@@ -198,7 +198,7 @@ export default function MyBookings() {
                           })}
                           className="action-btn demo"
                         >
-                          <span className="btn-icon">🏦</span>
+                          <span className="btn-icon"></span>
                           <span>Payment Demo</span>
                         </button>
                       </>
@@ -209,9 +209,7 @@ export default function MyBookings() {
                         disabled={cancelLoading === booking.id}
                         className="action-btn danger"
                       >
-                        <span className="btn-icon">
-                          {cancelLoading === booking.id ? '⏳' : '🗑️'}
-                        </span>
+                        
                         <span>
                           {cancelLoading === booking.id ? 'Cancelling...' : getTranslation('cancelBooking', language)}
                         </span>

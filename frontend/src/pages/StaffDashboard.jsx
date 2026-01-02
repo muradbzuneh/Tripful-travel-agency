@@ -27,8 +27,7 @@ export default function StaffDashboard() {
     duration_days: 1,
     price: '',
     available_slots: '',
-    start_date: '',
-    end_date: ''
+    start_date: ''
   });
   const [imagePreview, setImagePreview] = useState(null);
 
@@ -112,8 +111,7 @@ export default function StaffDashboard() {
       duration_days: pkg.duration_days,
       price: pkg.price,
       available_slots: pkg.available_slots,
-      start_date: pkg.start_date?.split('T')[0] || '',
-      end_date: pkg.end_date?.split('T')[0] || ''
+      start_date: pkg.start_date?.split('T')[0] || ''
     });
     setImagePreview(pkg.image_url ? `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${pkg.image_url}` : null);
     setShowPackageForm(true);
@@ -154,8 +152,7 @@ export default function StaffDashboard() {
       duration_days: 1,
       price: '',
       available_slots: '',
-      start_date: '',
-      end_date: ''
+      start_date: ''
     });
     setImagePreview(null);
   };
@@ -482,15 +479,6 @@ export default function StaffDashboard() {
                       type="date"
                       value={packageForm.start_date}
                       onChange={(e) => setPackageForm({...packageForm, start_date: e.target.value})}
-                      required
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label>End Date</label>
-                    <input
-                      type="date"
-                      value={packageForm.end_date}
-                      onChange={(e) => setPackageForm({...packageForm, end_date: e.target.value})}
                       required
                     />
                   </div>
