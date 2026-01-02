@@ -27,8 +27,7 @@ export default function Register() {
   const validateName = (name) => {
     if (name.length < 2) return "Name must be at least 2 characters";
     if (name.length > 50) return "Name must be less than 50 characters";
-    if (!/^[a-zA-Z\s]+$/.test(name))
-      return "Name can only contain letters and spaces";
+    if (!/^[a-zA-Z\s]+$/.test(name)) return "Name can only contain letters and spaces";
     return "";
   };
 
@@ -40,29 +39,26 @@ export default function Register() {
 
   const checkEmailAvailability = async (email) => {
     if (!email || validateEmail(email)) return;
-
+    
     try {
       const result = await authService.checkEmailAvailability(email);
       const errors = { ...validationErrors };
       if (!result.available) {
-        errors.email =
-          "This email is already registered. Please use a different email or try logging in.";
+        errors.email = "This email is already registered. Please use a different email or try logging in.";
       } else {
         errors.email = "";
       }
       setValidationErrors(errors);
     } catch (error) {
-      console.error("Email check failed:", error);
+      console.error('Email check failed:', error);
     }
   };
 
   const validatePhone = (phone) => {
-    const cleanedPhone = phone.replace(/[\s\-\(\)]/g, "");
-    const phoneRegex = /^\d{12}$/;
-    if (!phoneRegex.test(cleanedPhone)) {
-      return "Please enter a valid 12-digit phone number";
+    const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
+    if (!phoneRegex.test(phone.replace(/[\s\-\(\)]/g, ''))) {
+      return "Please enter a valid phone number";
     }
-
     return "";
   };
 
@@ -72,8 +68,7 @@ export default function Register() {
     if (!/[a-z]/.test(password)) errors.push("One lowercase letter");
     if (!/[A-Z]/.test(password)) errors.push("One uppercase letter");
     if (!/\d/.test(password)) errors.push("One number");
-    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password))
-      errors.push("One special character");
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) errors.push("One special character");
     return errors;
   };
 
@@ -86,12 +81,12 @@ export default function Register() {
 
     // Real-time validation
     const errors = { ...validationErrors };
-
+    
     switch (name) {
-      case "full_name":
+      case 'full_name':
         errors.full_name = validateName(value);
         break;
-      case "email":
+      case 'email':
         errors.email = validateEmail(value);
         if (!errors.email) {
           // Debounce email availability check
@@ -101,19 +96,17 @@ export default function Register() {
           }, 1000);
         }
         break;
-      case "phone":
+      case 'phone':
         errors.phone = validatePhone(value);
         break;
-      case "password":
+      case 'password':
         errors.password = validatePassword(value);
         if (formData.confirmPassword) {
-          errors.confirmPassword =
-            value !== formData.confirmPassword ? "Passwords do not match" : "";
+          errors.confirmPassword = value !== formData.confirmPassword ? "Passwords do not match" : "";
         }
         break;
-      case "confirmPassword":
-        errors.confirmPassword =
-          value !== formData.password ? "Passwords do not match" : "";
+      case 'confirmPassword':
+        errors.confirmPassword = value !== formData.password ? "Passwords do not match" : "";
         break;
     }
 
@@ -131,15 +124,10 @@ export default function Register() {
     errors.email = validateEmail(formData.email);
     errors.phone = validatePhone(formData.phone);
     errors.password = validatePassword(formData.password);
-    errors.confirmPassword =
-      formData.password !== formData.confirmPassword
-        ? "Passwords do not match"
-        : "";
+    errors.confirmPassword = formData.password !== formData.confirmPassword ? "Passwords do not match" : "";
 
-    const hasErrors = Object.values(errors).some(
-      (error) => error && (Array.isArray(error) ? error.length > 0 : true)
-    );
-
+    const hasErrors = Object.values(errors).some(error => error && (Array.isArray(error) ? error.length > 0 : true));
+    
     if (hasErrors) {
       setValidationErrors(errors);
       setError("Please fix the validation errors below");
@@ -192,7 +180,7 @@ export default function Register() {
                 onChange={handleChange}
                 required
                 placeholder="Enter your full name"
-                className={validationErrors.full_name ? "error" : ""}
+                className={validationErrors.full_name ? 'error' : ''}
               />
               {validationErrors.full_name && (
                 <div className="field-error">{validationErrors.full_name}</div>
@@ -209,7 +197,7 @@ export default function Register() {
                 onChange={handleChange}
                 required
                 placeholder="Enter your email address"
-                className={validationErrors.email ? "error" : ""}
+                className={validationErrors.email ? 'error' : ''}
               />
               {validationErrors.email && (
                 <div className="field-error">{validationErrors.email}</div>
@@ -226,14 +214,12 @@ export default function Register() {
                 onChange={handleChange}
                 required
                 placeholder="Enter your phone number"
-                className={validationErrors.phone ? "error" : ""}
+                className={validationErrors.phone ? 'error' : ''}
               />
               {validationErrors.phone && (
                 <div className="field-error">{validationErrors.phone}</div>
               )}
-              <small className="form-hint">
-                Include country code (e.g., +1234567890)
-              </small>
+              <small className="form-hint">Include country code (e.g., +1234567890)</small>
             </div>
 
             <div className="form-group">
@@ -247,12 +233,7 @@ export default function Register() {
                   onChange={handleChange}
                   required
                   placeholder="Create a strong password"
-                  className={
-                    Array.isArray(validationErrors.password) &&
-                    validationErrors.password.length > 0
-                      ? "error"
-                      : ""
-                  }
+                  className={Array.isArray(validationErrors.password) && validationErrors.password.length > 0 ? 'error' : ''}
                 />
                 <button
                   type="button"
@@ -262,34 +243,31 @@ export default function Register() {
                   {showPassword ? "👁️" : "👁️‍🗨️"}
                 </button>
               </div>
-
+              
               {formData.password && (
                 <div className="password-strength">
                   <div className="strength-bar">
-                    <div
+                    <div 
                       className={`strength-fill strength-${passwordStrength.label.toLowerCase()}`}
                       style={{ width: `${passwordStrength.strength}%` }}
                     ></div>
                   </div>
-                  <span className="strength-label">
-                    {passwordStrength.label}
-                  </span>
+                  <span className="strength-label">{passwordStrength.label}</span>
                 </div>
               )}
 
-              {Array.isArray(validationErrors.password) &&
-                validationErrors.password.length > 0 && (
-                  <div className="password-requirements">
-                    <p>Password must include:</p>
-                    <ul>
-                      {validationErrors.password.map((req, index) => (
-                        <li key={index} className="requirement-item">
-                          ❌ {req}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
+              {Array.isArray(validationErrors.password) && validationErrors.password.length > 0 && (
+                <div className="password-requirements">
+                  <p>Password must include:</p>
+                  <ul>
+                    {validationErrors.password.map((req, index) => (
+                      <li key={index} className="requirement-item">
+                        ❌ {req}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
 
             <div className="form-group">
@@ -303,7 +281,7 @@ export default function Register() {
                   onChange={handleChange}
                   required
                   placeholder="Confirm your password"
-                  className={validationErrors.confirmPassword ? "error" : ""}
+                  className={validationErrors.confirmPassword ? 'error' : ''}
                 />
                 <button
                   type="button"
@@ -314,11 +292,11 @@ export default function Register() {
                 </button>
               </div>
               {validationErrors.confirmPassword && (
-                <div className="field-error">
-                  {validationErrors.confirmPassword}
-                </div>
+                <div className="field-error">{validationErrors.confirmPassword}</div>
               )}
             </div>
+
+        
 
             <button type="submit" disabled={loading} className="auth-button">
               {loading ? (
@@ -338,7 +316,7 @@ export default function Register() {
             </p>
           </div>
         </div>
-
+        
         <div className="auth-image">
           <div className="image-overlay">
             <h3>Join Our Community</h3>

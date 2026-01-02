@@ -101,8 +101,8 @@
   font-weight: 700;
   margin: 0 0 10px 0;
   background: linear-gradient(45deg, #7ec7de, #35ec41);
-  -webkit-background-clip: text;
   background-clip: text;
+  color: #35ec41;
   text-shadow: 0 4px 8px rgba(0,0,0,0.3);
   animation: glow 2s ease-in-out infinite alternate;
 }

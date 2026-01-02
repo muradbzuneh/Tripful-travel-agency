@@ -1,17 +1,17 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { packageService } from '../services/packages';
-import { useAuth } from '../context/AuthContext';
-import PackageCard from '../componets/packageCard';
-import '../styles/packages.css';
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { packageService } from "../services/packages";
+import { useAuth } from "../context/AuthContext";
+import PackageCard from "../componets/packageCard";
+import "../styles/packages.css";
 
 export default function Packages() {
   const { isStaffOrAdmin } = useAuth();
   const [packages, setPackages] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [sortBy, setSortBy] = useState('title');
+  const [error, setError] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortBy, setSortBy] = useState("title");
   const [showInactive, setShowInactive] = useState(false);
 
   useEffect(() => {
@@ -31,7 +31,7 @@ export default function Packages() {
       }
       setPackages(data);
     } catch (err) {
-      setError('Failed to load packages');
+      setError("Failed to load packages");
       console.error(err);
     } finally {
       setLoading(false);
@@ -50,22 +50,24 @@ export default function Packages() {
 
   // Filter and sort packages
   const filteredPackages = packages
-    .filter(pkg => 
-      pkg.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      pkg.destination.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (pkg.location && pkg.location.toLowerCase().includes(searchTerm.toLowerCase()))
+    .filter(
+      (pkg) =>
+        pkg.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        pkg.destination.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (pkg.location &&
+          pkg.location.toLowerCase().includes(searchTerm.toLowerCase()))
     )
     .sort((a, b) => {
       switch (sortBy) {
-        case 'price-low':
+        case "price-low":
           return a.price - b.price;
-        case 'price-high':
+        case "price-high":
           return b.price - a.price;
-        case 'duration':
+        case "duration":
           return a.duration_days - b.duration_days;
-        case 'rating':
+        case "rating":
           return b.hotel_rating - a.hotel_rating;
-        case 'status':
+        case "status":
           return b.is_active - a.is_active;
         default:
           return a.title.localeCompare(b.title);
@@ -107,7 +109,10 @@ export default function Packages() {
           </div>
           <div className="filter-controls">
             <div className="sort-box">
-              <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+              >
                 <option value="title">Sort by Title</option>
                 <option value="price-low">Price: Low to High</option>
                 <option value="price-high">Price: High to Low</option>
@@ -138,10 +143,10 @@ export default function Packages() {
           </div>
         ) : (
           <div className="packages-grid">
-            {filteredPackages.map(pkg => (
+            {filteredPackages.map((pkg) => (
               <div key={pkg.id} className="package-item">
-                <PackageCard 
-                  pkg={pkg} 
+                <PackageCard
+                  pkg={pkg}
                   onBookingSuccess={handleBookingSuccess}
                   onPackageUpdate={handlePackageUpdate}
                 />
@@ -150,12 +155,11 @@ export default function Packages() {
           </div>
         )}
 
-        {/* Package Count */}
         <div className="package-count">
           Showing {filteredPackages.length} of {packages.length} packages
           {isStaffOrAdmin && showInactive && (
             <span className="inactive-count">
-              ({packages.filter(p => !p.is_active).length} inactive)
+              ({packages.filter((p) => !p.is_active).length} inactive)
             </span>
           )}
         </div>

@@ -353,9 +353,8 @@ h1 {
   line-height: 1.1;
   margin-bottom: 1.2rem;
   background: var(--ocean-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-clip: text;
+  color: #3b82f6;
 }
 
 h2 {
@@ -546,6 +545,5 @@ p {
   h1, h2, h3 {
     color: black;
     background: none;
-    -webkit-text-fill-color: initial;
   }
 }

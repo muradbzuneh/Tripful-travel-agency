@@ -22,3 +22,17 @@ export const login = async (req, res, next) => {
     next(err);
   }
 };
+
+export const checkEmail = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    const isAvailable = await authService.checkEmailAvailability(email);
+    res.json({ 
+      available: isAvailable, 
+      message: isAvailable ? 'Email is available' : 'Email is already registered'
+    });
+  } catch (err) {
+    err.status = 400;
+    next(err);
+  }
+};

@@ -1,6 +1,15 @@
 import api from './api.js';
 
 export const authService = {
+  async checkEmailAvailability(email) {
+    try {
+      const response = await api.post('/auth/check-email', { email });
+      return response.data;
+    } catch (error) {
+      return { available: false, message: 'Email check failed' };
+    }
+  },
+
   async register(userData) {
     const response = await api.post('/auth/register', userData);
     return response.data;

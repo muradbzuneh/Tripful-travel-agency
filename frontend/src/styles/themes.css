@@ -1,6 +1,4 @@
-/* Global Theme Variables */
 :root {
-  /* Light Theme Colors */
   --bg-primary: #ffffff;
   --bg-secondary: #f8fafc;
   --bg-tertiary: #f1f5f9;
@@ -19,7 +17,6 @@
   --overlay-bg: rgba(0, 0, 0, 0.5);
 }
 
-/* Dark Theme Colors */
 [data-theme="dark"] {
   --bg-primary: #0f172a;
   --bg-secondary: #1e293b;
@@ -39,14 +36,12 @@
   --overlay-bg: rgba(0, 0, 0, 0.7);
 }
 
-/* Global Theme Application */
 body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Update existing components to use theme variables */
 .home {
   background-color: var(--bg-primary);
 }
@@ -111,10 +106,13 @@ body {
   color: var(--text-secondary);
 }
 
-/* Dark theme for preloader */
 [data-theme="dark"] .preloader-overlay {
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.8)),
-              url('../assets/images/preloder.jpg');
+  background: linear-gradient(
+      135deg,
+      rgba(15, 23, 42, 0.9),
+      rgba(30, 41, 59, 0.8)
+    ),
+    url("../assets/images/preloder.jpg");
 }
 
 [data-theme="dark"] .preloader-container {
@@ -123,18 +121,19 @@ body {
 
 [data-theme="dark"] .brand-name {
   background: linear-gradient(45deg, #60a5fa, #34d399);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-clip: text;
+  color: #34d399;
 }
 
-/* Dark theme for hero section */
 [data-theme="dark"] .hero {
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.8)),
-              url('../assets/images/Header-logo.jpg');
+  background: linear-gradient(
+      135deg,
+      rgba(15, 23, 42, 0.9),
+      rgba(30, 41, 59, 0.8)
+    ),
+    url("../assets/images/Header-logo.jpg");
 }
 
-/* Navbar dark theme */
 [data-theme="dark"] .navbar {
   background-color: var(--bg-secondary);
   border-bottom-color: var(--border-color);
@@ -148,7 +147,6 @@ body {
   color: var(--accent-primary);
 }
 
-/* Booking cards dark theme */
 [data-theme="dark"] .booking-card {
   background-color: var(--bg-secondary);
   border-color: var(--border-color);
@@ -216,9 +214,12 @@ body {
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
-/* Button themes */
 .btn-primary {
-  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  background: linear-gradient(
+    135deg,
+    var(--accent-primary),
+    var(--accent-secondary)
+  );
   color: #ffffff;
   border: none;
   padding: 12px 24px;
@@ -250,7 +251,7 @@ body {
   color: #ffffff;
 }
 
-/* Smooth transitions for theme switching */
 * {
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease;
 }
