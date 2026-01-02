@@ -16,7 +16,7 @@ export default function Attractions() {
     {
       id: 16,
       img: "/src/assets/packages/Lalibela.jpg",
-      place: "gezira Lalibela",
+      place: "Lalibela",
       Historicalplace:
         "The Rock-Hewn Churches of Lalibela, carved from solid rock in the 12th century, are among the greatest religious monuments in the world.",
       History:
@@ -25,7 +25,7 @@ export default function Attractions() {
     {
       id: 17,
       img: "/src/assets/packages/Axsum.jpg",
-      place: "Axum obelisk",
+      place: "Axum",
       Historicalplace:
         "The Axum Obelisks, royal tombs, and ruins of ancient palaces represent one of Africa's greatest civilizations.",
       History:
@@ -34,7 +34,7 @@ export default function Attractions() {
     {
       id: 18,
       img: "/src/assets/packages/addisabeba.jpg",
-      place: "capital city of ethiopia",
+      place: "Addis Ababa",
       Historicalplace:
         "The National Museum, Holy Trinity Cathedral, and Entoto Mountains are major historical landmarks.",
       History:

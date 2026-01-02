@@ -1,10 +1,13 @@
-import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { packageService } from '../services/packages';
-import { bookingService } from '../services/bookings';
-import { useAuth } from '../context/AuthContext';
-import { getPackageImageUrl, createImageErrorHandler } from '../utils/imageUtils';
-import '../styles/package-details.css';
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { packageService } from "../services/packages";
+import { bookingService } from "../services/bookings";
+import { useAuth } from "../context/AuthContext";
+import {
+  getPackageImageUrl,
+  createImageErrorHandler,
+} from "../utils/imageUtils";
+import "../styles/package-details.css";
 
 export default function PackageDetails() {
   const { id } = useParams();
@@ -12,9 +15,9 @@ export default function PackageDetails() {
   const { isAuthenticated } = useAuth();
   const [pkg, setPkg] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [bookingLoading, setBookingLoading] = useState(false);
-  const [travelDate, setTravelDate] = useState('');
+  const [travelDate, setTravelDate] = useState("");
 
   useEffect(() => {
     fetchPackageDetails();
@@ -26,7 +29,7 @@ export default function PackageDetails() {
       const data = await packageService.getPackageById(id);
       setPkg(data);
     } catch (err) {
-      setError('Package not found');
+      setError("Package not found");
       console.error(err);
     } finally {
       setLoading(false);
@@ -36,7 +39,7 @@ export default function PackageDetails() {
   const handleBooking = async (e) => {
     e.preventDefault();
     if (!travelDate) {
-      alert('Please select a travel date');
+      alert("Please select a travel date");
       return;
     }
 
@@ -44,13 +47,15 @@ export default function PackageDetails() {
     try {
       await bookingService.createBooking({
         package_id: pkg.id,
-        travel_date: travelDate
+        travel_date: travelDate,
       });
-      
-      alert('Booking created successfully! Check your bookings to make payment.');
-      navigate('/my-bookings');
+
+      alert(
+        "Booking created successfully! Check your bookings to make payment."
+      );
+      navigate("/my-bookings");
     } catch (err) {
-      alert(err.response?.data?.error || 'Failed to create booking');
+      alert(err.response?.data?.error || "Failed to create booking");
     } finally {
       setBookingLoading(false);
     }
@@ -63,7 +68,7 @@ export default function PackageDetails() {
   // Create image error handler only when package is loaded
   const imageErrorHandler = pkg ? createImageErrorHandler(pkg) : null;
 
-  const today = new Date().toISOString().split('T')[0];
+  const today = new Date().toISOString().split("T")[0];
 
   if (loading) {
     return <div className="loading">Loading package details...</div>;
@@ -72,10 +77,8 @@ export default function PackageDetails() {
   if (error || !pkg) {
     return (
       <div className="error-page">
-        <h2>{error || 'Package not found'}</h2>
-        <button onClick={() => navigate('/packages')}>
-          Back to Packages
-        </button>
+        <h2>{error || "Package not found"}</h2>
+        <button onClick={() => navigate("/packages")}>Back to Packages</button>
       </div>
     );
   }
@@ -83,14 +86,14 @@ export default function PackageDetails() {
   return (
     <div className="package-details-page">
       <div className="container">
-        <button onClick={() => navigate('/packages')} className="back-button">
+        <button onClick={() => navigate("/packages")} className="back-button">
           ← Back to Packages
         </button>
 
         <div className="package-details">
           <div className="package-image-section">
-            <img 
-              src={getPackageImageUrl(pkg)} 
+            <img
+              src={getPackageImageUrl(pkg)}
               alt={pkg.title}
               className="main-image"
               onError={imageErrorHandler || undefined}
@@ -108,7 +111,6 @@ export default function PackageDetails() {
 
             <div className="package-meta">
               <div className="meta-item">
-                <span className="icon">📍</span>
                 <div>
                   <strong>Destination:</strong>
                   <p>{pkg.destination}</p>
@@ -117,38 +119,45 @@ export default function PackageDetails() {
 
               {pkg.location && (
                 <div className="meta-item">
-                  <img src="/src/assets/images/location.png" className="meta-item-img" alt='🗺️' ></img>
+                  <img
+                    src="/src/assets/images/location.png"
+                    className="meta-item-img"
+                    alt="🗺️"
+                  ></img>
                   <div>
                     <strong>View Location:</strong>
-                    <a href="https://www.google.com/maps/place/Lalibela/@11.0642944,39.7356052,5879m/data=!3m1!1e3!4m6!3m5!1s0x16413eee814f2d03:0xf27414e782ae4b62!8m2!3d12.0308987!4d39.0476298!16zL20vMDJrczB3?entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D" target='_blank'>Location</a>
+                    <a
+                      href="https://www.google.com/maps/place/Lalibela/@11.0642944,39.7356052,5879m/data=!3m1!1e3!4m6!3m5!1s0x16413eee814f2d03:0xf27414e782ae4b62!8m2!3d12.0308987!4d39.0476298!16zL20vMDJrczB3?entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D"
+                      target="_blank"
+                    >
+                      Location
+                    </a>
                   </div>
                 </div>
               )}
 
               <div className="meta-item">
-                <span className="icon">🏨</span>
                 <div>
                   <strong>Hotel:</strong>
                   <p>{pkg.hotel_name}</p>
                   {pkg.hotel_rating && (
-                    <img 
-                      src={getRatingImage(pkg.hotel_rating)} 
+                    <img
+                      src={getRatingImage(pkg.hotel_rating)}
                       alt={`${pkg.hotel_rating} stars`}
                       className="rating-image"
                       onError={(e) => {
-                        e.target.style.display = 'none';
-                        e.target.nextSibling.style.display = 'inline';
+                        e.target.style.display = "none";
+                        e.target.nextSibling.style.display = "inline";
                       }}
                     />
                   )}
-                  <span className="rating-fallback" style={{display: 'none'}}>
+                  <span className="rating-fallback" style={{ display: "none" }}>
                     ({pkg.hotel_rating} ⭐)
                   </span>
                 </div>
               </div>
 
               <div className="meta-item">
-                <span className="icon">✈️</span>
                 <div>
                   <strong>Flight:</strong>
                   <p>{pkg.flight_summary}</p>
@@ -156,20 +165,23 @@ export default function PackageDetails() {
               </div>
 
               <div className="meta-item">
-                <span className="icon">📅</span>
                 <div>
                   <strong>Available Period:</strong>
-                  <p>{new Date(pkg.start_date).toLocaleDateString()} - {(() => {
-                    const startDate = new Date(pkg.start_date);
-                    const endDate = new Date(startDate);
-                    endDate.setDate(startDate.getDate() + pkg.duration_days - 1);
-                    return endDate.toLocaleDateString();
-                  })()}</p>
+                  <p>
+                    {new Date(pkg.start_date).toLocaleDateString()} -{" "}
+                    {(() => {
+                      const startDate = new Date(pkg.start_date);
+                      const endDate = new Date(startDate);
+                      endDate.setDate(
+                        startDate.getDate() + pkg.duration_days - 1
+                      );
+                      return endDate.toLocaleDateString();
+                    })()}
+                  </p>
                 </div>
               </div>
 
               <div className="meta-item">
-                <span className="icon">👥</span>
                 <div>
                   <strong>Available Slots:</strong>
                   <p>{pkg.available_slots} remaining</p>
@@ -200,18 +212,22 @@ export default function PackageDetails() {
                         max={(() => {
                           const startDate = new Date(pkg.start_date);
                           const endDate = new Date(startDate);
-                          endDate.setDate(startDate.getDate() + pkg.duration_days - 1);
-                          return endDate.toISOString().split('T')[0];
+                          endDate.setDate(
+                            startDate.getDate() + pkg.duration_days - 1
+                          );
+                          return endDate.toISOString().split("T")[0];
                         })()}
                         required
                       />
                     </div>
-                    <button 
-                      type="submit" 
+                    <button
+                      type="submit"
                       disabled={bookingLoading}
                       className="book-button"
                     >
-                      {bookingLoading ? 'Booking...' : `Book Now - $${pkg.price}`}
+                      {bookingLoading
+                        ? "Booking..."
+                        : `Book Now - $${pkg.price}`}
                     </button>
                   </form>
                 ) : (
@@ -224,8 +240,8 @@ export default function PackageDetails() {
               <div className="login-section">
                 <h3>Ready to Book?</h3>
                 <p>Please log in to book this amazing package.</p>
-                <button 
-                  onClick={() => navigate('/login')}
+                <button
+                  onClick={() => navigate("/login")}
                   className="login-button"
                 >
                   Login to Book
