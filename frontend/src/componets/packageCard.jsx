@@ -94,7 +94,7 @@ export default function PackageCard({
             className="edit-btn"
             title="Edit Package"
           >
-            ✏️ Edit
+            Edit
           </button>
           {isAdmin && pkg.is_active && (
             <button
@@ -102,7 +102,7 @@ export default function PackageCard({
               className="deactivate-btn"
               title="Deactivate Package"
             >
-              🗑️ Deactivate
+              Deactivate
             </button>
           )}
           {!pkg.is_active && <span className="inactive-badge">Inactive</span>}
@@ -124,21 +124,18 @@ export default function PackageCard({
           onError={imageErrorHandler}
         />
         
-        {/* Overlay with Quick Actions */}
+        {/* Overlay with View Details */}
         <div className="card-overlay">
-          
-    
-          
-          {/* View Details Button */}
           <div className="view-details-overlay">
             <a href={`/package/${pkg.id}`} className="view-details-btn">
-              👁️ View Details
+              View Details
             </a>
           </div>
         </div>
       </div>
 
       <div className="card-content">
+        {/* Header Section */}
         <div className="card-header">
           <h3 className="package-title">{pkg.title}</h3>
           <div className="package-status">
@@ -152,61 +149,69 @@ export default function PackageCard({
           </div>
         </div>
 
-        <div className="package-details">
-          <div className="detail-item">
-
-            <span className="detail-text">{pkg.destination}</span>
+        {/* Details Grid */}
+        <div className="package-details-grid">
+          <div className="detail-row">
+            <span className="detail-label">Destination</span>
+            <span className="detail-value">{pkg.destination}</span>
           </div>
           
-          <div className="detail-item">
-           
-            <span className="detail-text">{pkg.duration_days} days</span>
+          <div className="detail-row">
+            <span className="detail-label">Duration</span>
+            <span className="detail-value">{pkg.duration_days} days</span>
           </div>
           
-          <div className="detail-item">
-         
-            <span className="detail-text">{pkg.hotel_name}</span>
-            {pkg.hotel_rating && (
-              <div className="rating-stars">
-                {[...Array(5)].map((_, i) => (
-                  <span 
-                    key={i} 
-                    className={`star ${i < pkg.hotel_rating ? 'filled' : ''}`}
-                  >
-                    ⭐
-                  </span>
-                ))}
-              </div>
-            )}
+          <div className="detail-row">
+            <span className="detail-label">Hotel</span>
+            <div className="hotel-info">
+              <span className="detail-value">{pkg.hotel_name}</span>
+              {pkg.hotel_rating && (
+                <div className="rating-stars">
+                  {[...Array(5)].map((_, i) => (
+                    <span 
+                      key={i} 
+                      className={`star ${i < pkg.hotel_rating ? 'filled' : ''}`}
+                    >
+                      ★
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
           
-          <div className="detail-item">
-          
-            <span className="detail-text">{pkg.flight_summary}</span>
+          <div className="detail-row">
+            <span className="detail-label">Flight</span>
+            <span className="detail-value">{pkg.flight_summary}</span>
           </div>
         </div>
 
-        {pkg.location && (
-          <a href={pkg.location} className="location-link" target="_blank" rel="noopener noreferrer">
-            <img src="/src/assets/images/google-map.jpg" alt="View on Map" />
-            <span>View on Map</span>
-          </a>
-        )}
-
+        {/* Description */}
         {pkg.description && (
-          <p className="description">{pkg.description.substring(0, 120)}...</p>
+          <div className="description-section">
+            <p className="description">{pkg.description.substring(0, 100)}...</p>
+          </div>
         )}
 
-        <div className="availability-info">
+        {/* Location Link */}
+        {pkg.location && (
+          <div className="location-section">
+            <a href={pkg.location} className="location-link" target="_blank" rel="noopener noreferrer">
+              <img src="/src/assets/images/google-map.jpg" alt="Map" />
+              <span>View on Map</span>
+            </a>
+          </div>
+        )}
+
+        {/* Availability Section */}
+        <div className="availability-section">
           <div className="slots-info">
-          
             <span className="slots-text">{pkg.available_slots} slots available</span>
           </div>
           
           {pkg.available_slots <= 5 && pkg.available_slots > 0 && (
             <div className="urgency-indicator">
-              <span className="urgency-icon">⚡</span>
-              <span className="urgency-text">Hurry! Only {pkg.available_slots} left</span>
+              <span className="urgency-text">Only {pkg.available_slots} left!</span>
             </div>
           )}
         </div>
@@ -219,9 +224,6 @@ export default function PackageCard({
                 className={`book-btn ${pkg.available_slots === 0 || !pkg.is_active ? 'disabled' : 'primary'}`}
                 disabled={pkg.available_slots === 0 || !pkg.is_active}
               >
-                <span className="btn-icon">
-                  {!pkg.is_active ? "🚫" : pkg.available_slots === 0 ? "❌" : "🎫"}
-                </span>
                 <span className="btn-text">
                   {!pkg.is_active
                     ? "Inactive"
@@ -258,10 +260,7 @@ export default function PackageCard({
                           <span>Booking...</span>
                         </>
                       ) : (
-                        <>
-                          <span>✅</span>
-                          <span>Confirm Booking</span>
-                        </>
+                        <span>Confirm Booking</span>
                       )}
                     </button>
                     <button
@@ -272,14 +271,12 @@ export default function PackageCard({
                       }}
                       className="cancel-btn"
                     >
-                      <span>❌</span>
                       <span>Cancel</span>
                     </button>
                   </div>
                   
                   {error && (
                     <div className="error-message">
-                      <span className="error-icon">⚠️</span>
                       <span>{error}</span>
                     </div>
                   )}
@@ -289,14 +286,12 @@ export default function PackageCard({
           </div>
         ) : !isAuthenticated ? (
           <div className="login-prompt">
-            <span className="prompt-icon">🔐</span>
             <span>
               <a href="/login" className="login-link">Login</a> to book this package
             </span>
           </div>
         ) : (
           <div className="staff-info">
-            <span className="staff-icon">📋</span>
             <span className="staff-text">Management View</span>
           </div>
         )}
