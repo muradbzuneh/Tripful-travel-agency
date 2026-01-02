@@ -126,23 +126,8 @@ export default function PackageCard({
         
         {/* Overlay with Quick Actions */}
         <div className="card-overlay">
-          <div className="quick-actions">
-            <button className="quick-action-btn favorite-btn" title="Add to Favorites">
-              ❤️
-            </button>
-            <button className="quick-action-btn share-btn" title="Share Package">
-              📤
-            </button>
-            <button className="quick-action-btn info-btn" title="More Info">
-              ℹ️
-            </button>
-          </div>
           
-          {/* Price Badge */}
-          <div className="price-badge">
-            <span className="price-amount">${pkg.price}</span>
-            <span className="price-label">per person</span>
-          </div>
+    
           
           {/* View Details Button */}
           <div className="view-details-overlay">
@@ -169,17 +154,17 @@ export default function PackageCard({
 
         <div className="package-details">
           <div className="detail-item">
-            <span className="detail-icon">📍</span>
+
             <span className="detail-text">{pkg.destination}</span>
           </div>
           
           <div className="detail-item">
-            <span className="detail-icon">⏱️</span>
+           
             <span className="detail-text">{pkg.duration_days} days</span>
           </div>
           
           <div className="detail-item">
-            <span className="detail-icon">🏨</span>
+         
             <span className="detail-text">{pkg.hotel_name}</span>
             {pkg.hotel_rating && (
               <div className="rating-stars">
@@ -196,7 +181,7 @@ export default function PackageCard({
           </div>
           
           <div className="detail-item">
-            <span className="detail-icon">✈️</span>
+          
             <span className="detail-text">{pkg.flight_summary}</span>
           </div>
         </div>
@@ -214,7 +199,7 @@ export default function PackageCard({
 
         <div className="availability-info">
           <div className="slots-info">
-            <span className="slots-icon">👥</span>
+          
             <span className="slots-text">{pkg.available_slots} slots available</span>
           </div>
           

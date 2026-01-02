@@ -261,13 +261,22 @@ export default function Services() {
               <span>Book Ride</span>
             </button>
             {isAuthenticated && (
-              <button 
-                className="action-btn package-btn"
-                onClick={() => window.location.href = '/packages'}
-              >
-                <span className="action-icon">📦</span>
-                <span>View Packages</span>
-              </button>
+              <>
+                <button 
+                  className="action-btn package-btn"
+                  onClick={() => window.location.href = '/packages'}
+                >
+                  <span className="action-icon">📦</span>
+                  <span>View Packages</span>
+                </button>
+                <button 
+                  className="action-btn payment-demo-btn"
+                  onClick={() => window.location.href = '/payment-demo'}
+                >
+                  <span className="action-icon">💳</span>
+                  <span>Payment Demo</span>
+                </button>
+              </>
             )}
           </div>
         </div>

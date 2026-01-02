@@ -450,6 +450,10 @@
   border-color: #8b5cf6;
 }
 
+.payment-demo-btn:hover {
+  border-color: #f59e0b;
+}
+
 .action-icon {
   font-size: 32px;
 }
@@ -468,6 +472,10 @@
 
 .package-btn .action-icon {
   color: #8b5cf6;
+}
+
+.payment-demo-btn .action-icon {
+  color: #f59e0b;
 }
 
 /* Support Section */

@@ -177,13 +177,31 @@ export default function MyBookings() {
 
                   <div className="booking-actions">
                     {!isFullyPaid && booking.booking_status !== 'CANCELLED' && (
-                      <button 
-                        onClick={() => handlePaymentClick(booking)}
-                        className="action-btn primary"
-                      >
-                        <span className="btn-icon">💳</span>
-                        <span>{getTranslation('makePayment', language)}</span>
-                      </button>
+                      <>
+                        <button 
+                          onClick={() => handlePaymentClick(booking)}
+                          className="action-btn primary"
+                        >
+                          <span className="btn-icon">💳</span>
+                          <span>{getTranslation('makePayment', language)}</span>
+                        </button>
+                        <button 
+                          onClick={() => navigate('/payment-demo', {
+                            state: {
+                              bookingDetails: {
+                                packageTitle: `Package #${booking.package_id}`,
+                                amount: remainingAmount.toFixed(2),
+                                currency: 'ETB',
+                                bookingId: booking.id
+                              }
+                            }
+                          })}
+                          className="action-btn demo"
+                        >
+                          <span className="btn-icon">🏦</span>
+                          <span>Payment Demo</span>
+                        </button>
+                      </>
                     )}
                     {booking.booking_status !== 'CANCELLED' && (
                       <button 

@@ -10,6 +10,7 @@ import MyBookings from "./pages/Mybooking";
 import StaffDashboard from "./pages/StaffDashboard";
 import BookingDetails from "./pages/BookingDetails";
 import Payment from "./pages/Payment";
+import PaymentDemo from "./pages/PaymentDemo";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentFailed from "./pages/PaymentFailed";
 import Navbar from "./componets/Navbar";
@@ -80,6 +81,7 @@ function AppContent() {
                   </ProtectedRoute>
                 } 
               />
+              <Route path="/payment-demo" element={<PaymentDemo />} />
               <Route path="/payment-success" element={<PaymentSuccess />} />
               <Route path="/payment-failed" element={<PaymentFailed />} />
               <Route 
