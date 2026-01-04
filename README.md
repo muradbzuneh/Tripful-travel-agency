@@ -6,7 +6,7 @@ Members name ---- ID ---- Role
 - Kidanework Yirga----------- 1152/16----------------Frontend(Work on the page Service, Destination, & Attraction)
 - Mahlet Chanyalew----------- 3963/16----------------Frontend(Work on the page Event, Package for user and staff, & the staff dashboard )
 - Mena Mulugeta-------------- 1320/16----------------Frontend(Work on the page Home, Login for staff, & Register for the User)
-- Murad Bzuneh--------------- 1492/16----------------Backend()
+- Murad Bzuneh--------------- 1492/16----------------Backend
 
 # Tripful - Travel Booking Website
 
