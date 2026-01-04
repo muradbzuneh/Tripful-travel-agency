@@ -1,3 +1,13 @@
+Group 1
+
+Members name ---- ID ---- Role
+
+- Hubeyb Awol---------------- 1067/16----------------Database
+- Kidanework Yirga----------- 1152/16----------------Frontend(Work on the page Service, Destination, & Attraction)
+- Mahlet Chanyalew----------- 3963/16----------------Frontend(Work on the page Event, Package for user and staff, & the staff dashboard )
+- Mena Mulugeta-------------- 1320/16----------------Frontend(Work on the page Home, Login for staff, & Register for the User)
+- Murad Bzuneh--------------- 1492/16----------------Backend()
+
 # Tripful - Travel Booking Website
 
 A complete travel booking platform where customers can browse holiday packages, make bookings, and process payments with a "Book Now, Pay Later" feature. Staff members can manage packages and bookings through an admin dashboard.
@@ -5,14 +15,16 @@ A complete travel booking platform where customers can browse holiday packages, 
 ## Features
 
 ### Customer Features
+
 - Browse holiday packages with flights and hotels
 - Search and filter packages by destination, price, duration, and rating
 - Book packages with flexible travel dates
-- Book Now, Pay Later - make partial or full payments
+- Book Now, Pay- make partial or full payments
 - View and manage bookings
 - Track payment status
 
 ### Staff Features
+
 - Add, edit, and deactivate holiday packages with image upload
 - View all customer bookings
 - Update booking statuses
@@ -22,6 +34,7 @@ A complete travel booking platform where customers can browse holiday packages, 
 ## Tech Stack
 
 ### Frontend
+
 - React 19
 - React Router DOM
 - Axios for API calls
@@ -29,6 +42,7 @@ A complete travel booking platform where customers can browse holiday packages, 
 - Vite as build tool
 
 ### Backend
+
 - Node.js with Express 5
 - PostgreSQL database
 - JWT authentication
@@ -69,6 +83,7 @@ A complete travel booking platform where customers can browse holiday packages, 
 ## Setup Instructions
 
 ### Prerequisites
+
 - Node.js (v16 or higher)
 - PostgreSQL (v12 or higher)
 - npm or yarn
@@ -139,16 +154,19 @@ CREATE TABLE payments (
 ### Backend Setup
 
 1. Navigate to the Backend directory:
+
 ```bash
 cd Backend
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Configure environment variables in `.env`:
+
 ```
 PORT=5000
 DB_HOST=localhost
@@ -161,6 +179,7 @@ JWT_EXPIRES_IN=7d
 ```
 
 4. Start the backend server:
+
 ```bash
 npm start
 # or for development with auto-reload
@@ -172,16 +191,19 @@ The backend will run on `http://localhost:5000`
 ### Frontend Setup
 
 1. Navigate to the frontend directory:
+
 ```bash
 cd frontend
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Start the development server:
+
 ```bash
 npm run dev
 ```
@@ -191,27 +213,33 @@ The frontend will run on `http://localhost:5173`
 ## API Endpoints
 
 ### Authentication
+
 - `POST /api/auth/register` - Register new user
 - `POST /api/auth/login` - Login user
 
 ### Packages (Public)
+
 - `GET /api/packages` - Get all active packages
 
 ### Packages (Staff Only)
+
 - `POST /api/packages` - Create new package
 - `GET /api/packages/all` - Get all packages (including inactive)
 - `PUT /api/packages/:id` - Update package
 - `DELETE /api/packages/:id` - Deactivate package
 
 ### Bookings (Customer)
+
 - `POST /api/bookings` - Create booking
 - `GET /api/bookings/my` - Get user's bookings
 
 ### Bookings (Staff Only)
+
 - `GET /api/bookings` - Get all bookings
 - `PATCH /api/bookings/:id/status` - Update booking status
 
 ### Payments
+
 - `POST /api/payments` - Create payment
 
 ## Default Accounts
@@ -219,11 +247,13 @@ The frontend will run on `http://localhost:5173`
 For testing purposes, you can create these accounts:
 
 **Customer Account:**
+
 - Email: customer@demo.com
 - Password: password123
 - Role: CUSTOMER
 
 **Staff Account:**
+
 - Email: staff@demo.com
 - Password: password123
 - Role: STAFF
@@ -242,12 +272,14 @@ For testing purposes, you can create these accounts:
 ✅ Role-based access control (Customer/Staff)
 ✅ Package browsing and filtering
 ✅ Booking creation with travel date selection
-✅ Book Now, Pay Later functionality
+✅ Book Now, Pay functionality
 ✅ Payment tracking and status updates
 ✅ Staff dashboard for package management
 ✅ Staff dashboard for booking management
 ✅ Responsive design for mobile and desktop
 ✅ Protected routes for authenticated users
+✅ Dark and light mode for our website
+✅ Different language options like Amharic, English, Tigregna and Oromic.
 
 ## Notes
 
