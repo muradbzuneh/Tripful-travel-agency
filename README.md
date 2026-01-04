@@ -2,7 +2,7 @@ Group 1
 
 Members name ---- ID ---- Role
 
-- Hubeyb Awol---------------- 1067/16----------------Database
+- Hubeyb Awol---------------- 1067/16----------------Database & preloader
 - Kidanework Yirga----------- 1152/16----------------Frontend(Work on the page Service, Destination, & Attraction)
 - Mahlet Chanyalew----------- 3963/16----------------Frontend(Work on the page Event, Package for user and staff, & the staff dashboard )
 - Mena Mulugeta-------------- 1320/16----------------Frontend(Work on the page Home, Login for staff, & Register for the User)
